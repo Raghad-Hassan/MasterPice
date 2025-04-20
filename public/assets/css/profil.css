@@ -1,0 +1,263 @@
+:root {
+    --primary-color: #029a84;
+    --secondary-color: #02d3ac;
+    --dark-color: #333;
+    --light-color: #f8f9fa;
+}
+
+body {
+    font-family: 'Cairo', sans-serif;
+    background-color: #f5f5f5;
+    color: #333;
+    margin: 0;
+    padding: 0;
+}
+
+.profile-container {
+    max-width: 1200px;
+    margin: 80px auto 40px;
+    padding: 20px;
+    direction: rtl;
+}
+
+/* قسم رأس البروفايل */
+.profile-header {
+    display: flex;
+    align-items: center;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 2px 15px rgba(0,0,0,0.1);
+    padding: 30px;
+    margin-bottom: 30px;
+    position: relative;
+}
+
+.profile-image {
+    width: 180px;
+    height: 180px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 5px solid var(--primary-color);
+    margin-left: 30px;
+}
+
+.profile-info {
+    flex: 1;
+}
+
+.profile-name {
+    color: var(--primary-color);
+    margin: 0;
+    font-size: 2rem;
+}
+
+.profile-title {
+    color: #666;
+    margin-top: 5px;
+    font-size: 1.2rem;
+}
+
+.edit-profile {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    background: var(--primary-color);
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.edit-profile:hover {
+    background: var(--secondary-color);
+}
+
+/* الأقسام الرئيسية */
+.profile-section {
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 2px 15px rgba(0,0,0,0.1);
+    padding: 25px;
+    margin-bottom: 30px;
+}
+
+.section-title {
+    color: var(--primary-color);
+    border-bottom: 2px solid #eee;
+    padding-bottom: 10px;
+    margin-top: 0;
+    font-size: 1.5rem;
+}
+
+/* قسم النبذة */
+.bio-text {
+    line-height: 1.8;
+    font-size: 1.1rem;
+}
+
+/* قسم المهارات */
+.skills-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.skill-badge {
+    background: var(--light-color);
+    color: var(--dark-color);
+    padding: 8px 15px;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    border: 1px solid #ddd;
+}
+
+/* قسم النشاطات التطوعية */
+.stats-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+.stat-card {
+    background: var(--light-color);
+    border-radius: 8px;
+    padding: 20px;
+    text-align: center;
+    border-top: 4px solid var(--primary-color);
+}
+
+.stat-number {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--primary-color);
+    margin: 10px 0;
+}
+
+.stat-label {
+    color: #666;
+    font-size: 1rem;
+}
+
+/* سجل الأنشطة */
+.activity-list {
+    list-style: none;
+    padding: 0;
+}
+
+.activity-item {
+    border-bottom: 1px solid #eee;
+    padding: 15px 0;
+    display: flex;
+    align-items: center;
+}
+
+.activity-icon {
+    width: 50px;
+    height: 50px;
+    background: var(--light-color);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: 15px;
+    color: var(--primary-color);
+    font-size: 1.2rem;
+}
+
+.activity-details {
+    flex: 1;
+}
+
+.activity-title {
+    font-weight: 600;
+    margin: 0;
+}
+
+.activity-date {
+    color: #666;
+    font-size: 0.9rem;
+    margin-top: 5px;
+}
+
+/* قسم الشهادات */
+.certificates-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 20px;
+}
+
+.certificate-card {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    overflow: hidden;
+    transition: transform 0.3s;
+}
+
+.certificate-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+.certificate-image {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+}
+
+.certificate-info {
+    padding: 15px;
+}
+
+.certificate-title {
+    margin: 0 0 10px;
+    color: var(--primary-color);
+}
+
+.download-btn {
+    display: inline-block;
+    background: var(--primary-color);
+    color: white;
+    padding: 8px 15px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: background 0.3s;
+}
+
+.download-btn:hover {
+    background: var(--secondary-color);
+}
+
+/* قسم إضافي للاهتمامات التطوعية */
+.interests-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.interest-badge {
+    background: #e3f2fd;
+    color: #1976d2;
+    padding: 8px 15px;
+    border-radius: 20px;
+    font-size: 0.9rem;
+}
+
+@media (max-width: 768px) {
+    .profile-header {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .profile-image {
+        margin-left: 0;
+        margin-bottom: 20px;
+    }
+    
+    .stats-container {
+        grid-template-columns: 1fr;
+    }
+}

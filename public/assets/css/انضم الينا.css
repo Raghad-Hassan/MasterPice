@@ -1,0 +1,132 @@
+*{
+    font-family: 'Cairo', sans-serif;
+ }
+
+   body {
+    font-family: 'Cairo', sans-serif;
+    background-color: #eef1f4;
+    color: #333;
+    direction: rtl;
+    margin: 0;
+    padding: 0;
+    padding-top: 90px; 
+}
+
+
+.container {
+max-width: 800px;
+margin-top: 10px; 
+margin-bottom: 50px;
+background-color: #ffffff;
+padding: 20px;
+border-radius: 10px;
+box-shadow: 0 5px 8px rgba(0, 0, 0, 0.1);
+}
+
+
+
+h2 {
+color: #005364;
+font-size: 28px;
+font-weight: bold;
+margin-bottom: 20px;
+}
+
+/* تنسيق الحقول المدخلة */
+.form-label {
+font-weight: bold;
+color: #005364;
+font-size: 16px;
+}
+
+/* تنسيق الحقول المدخلة */
+.form-control {
+border-radius: 5px;
+border: 1px solid #ccc;
+padding: 10px;
+font-size: 16px;
+width: 100%;
+}
+
+/* تنسيق الأزرار */
+.btn-primary {
+background-color: #005364;
+border-color: #005364;
+font-size: 18px;
+padding: 10px 20px;
+border-radius: 5px;
+width: 100%;
+}
+
+/* عند التمرير على الزر */
+.btn-primary:hover {
+background-color: #003f47;
+border-color: #003f47;
+}
+
+
+
+/* تنسيق التفاصيل الإضافية عند الاختيار "نعم" في الخبرة */
+#experienceDetails {
+margin-top: 10px;
+}
+
+/* تنسيق النص الذي يظهر تحت كل حقل */
+small {
+font-size: 12px;
+color: #555;
+}
+
+
+textarea.form-control {
+height: 150px;
+resize: vertical;
+}
+
+.mb-3 {
+margin-bottom: 20px;
+}
+
+
+select.form-control {
+height: 45px;
+}
+
+.form-check {
+display: inline-block;
+margin-right: 15px;
+}
+
+.form-check-input {
+margin-right: 10px;
+}
+
+
+.d-flex {
+display: flex;
+flex-wrap: wrap;
+}
+
+.form-check-label {
+font-size: 18px;
+color: #005364;
+}
+
+
+.mb-3 {
+margin-bottom: 20px;
+}
+
+.btn-login {
+background-color: #02d3ac; 
+color: white;
+border: none;
+padding: 10px 20px;
+border-radius: 5px;
+text-decoration: none; 
+}
+
+
+.btn-login:hover {
+background-color: #019f87;
+}
