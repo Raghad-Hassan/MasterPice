@@ -8,27 +8,26 @@ use Illuminate\Http\Request;
 
 class ConferenceController extends Controller
 {
-    /**
-     * عرض قائمة المؤتمرات للمستخدمين
-     */
+    
     public function index()
     {
-        $conferences = AnnualConference::where('active', true)
-                                     ->orderBy('date', 'desc')
-                                     ->get();
-        
-        return view('conferences.show', compact('conferences'));
+        $conference = AnnualConference::where('status', 'active')
+                                    ->orderBy('date', 'desc')
+                                    ->first();
+    
+        if (!$conference) {
+            return view('index')->with('message', 'لا توجد مؤتمرات متاحة حالياً');
+        }
+    
+        return view('index', compact('conference'));
     }
 
-    /**
-     * عرض صفحة التسجيل للمؤتمر
-     */
+    
     public function showRegistrationForm($id)
     {
-        // جلب المؤتمر باستخدام المعرف
+       
         $conference = AnnualConference::findOrFail($id);
         
-        // التحقق من أن المؤتمر مفعل
         if (!$conference->active) {
             abort(404, 'المؤتمر غير متاح حالياً');
         }
@@ -36,25 +35,26 @@ class ConferenceController extends Controller
         return view('conferences.register', compact('conference'));
     }
 
-    /**
-     * معالجة تسجيل المؤتمر
-     */
+
+
+    
     public function register(Request $request, $conferenceId)
     {
-        // التحقق من صحة البيانات
+       
+       
         $request->validate([
             'full_name' => 'required|string|max:255',
             'email' => 'required|email|unique:conference_registrations,email',
             'phone' => 'required|string|max:15',
             'interest_field' => 'required|string',
             'city' => 'required|string',
-            'previous_experience' => 'required|in:نعم,لا',
-            'experience_details' => 'nullable|string|required_if:previous_experience,نعم',
+            'previous_experience' => 'required|in:yes,no',
+            'experience_details' => 'nullable|string|required_if:previous_experience,yes',
             'skills' => 'nullable|array',
             'motivation' => 'required|string',
         ]);
 
-        // إنشاء تسجيل جديد
+       
         $registration = new ConferenceRegistration();
         $registration->fill([
             'full_name' => $request->full_name,
@@ -62,12 +62,13 @@ class ConferenceController extends Controller
             'phone' => $request->phone,
             'interest_field' => $request->interest_field,
             'city' => $request->city,
-            'previous_experience' => $request->previous_experience == 'نعم',
+            'previous_experience' => $request->previous_experience ,
             'experience_details' => $request->experience_details,
             'skills' => json_encode($request->skills),
             'motivation' => $request->motivation,
             'conference_id' => $conferenceId,
-            'user_id' => auth()->id() ?? null, // إذا كان مسجل دخول
+            'user_id' => auth()->id() , // إذا كان مسجل دخول
+            'participation_reason' => $request->motivation,
         ]);
 
         $registration->save();
@@ -76,9 +77,7 @@ class ConferenceController extends Controller
                        ->with('success', 'تم تسجيلك في المؤتمر بنجاح!');
     }
 
-    /**
-     * عرض تفاصيل مؤتمر معين
-     */
+    
     public function show($id)
 {
     $conference = AnnualConference::findOrFail($id);
@@ -90,29 +89,23 @@ class ConferenceController extends Controller
 
     $conferences = AnnualConference::all();
 
-    return view('conferences.show', compact('conference', 'conferenceStats', 'conferences'));
+    return view('conferences.show', compact('conference', 'conferenceStats', 'conferences'))->with('success', 'تم التسجيل بنجاح!');
 }
 
-    /**
-     * عرض قائمة المؤتمرات للإدارة (للمشرفين)
-     */
+    
     public function adminIndex()
     {
         $conferences = AnnualConference::all();
         return view('admin.annual_conferences.index', compact('conferences'));
     }
 
-    /**
-     * عرض نموذج إنشاء مؤتمر جديد
-     */
+    
     public function create()
     {
         return view('admin.annual_conferences.create');
     }
 
-    /**
-     * حفظ المؤتمر الجديد
-     */
+    
     public function store(Request $request)
     {
         $request->validate([
@@ -127,10 +120,10 @@ class ConferenceController extends Controller
             'image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
         ]);
 
-        // تخزين المؤتمر الجديد
+        
         $conference = AnnualConference::create($request->except('image'));
 
-        // إذا كان هناك صورة، يتم تخزينها
+        
         if ($request->hasFile('image')) {
             $imagePath = $request->file('image')->store('conferences', 'public');
             $conference->update(['image' => $imagePath]);
@@ -140,18 +133,16 @@ class ConferenceController extends Controller
                          ->with('success', 'تم إنشاء المؤتمر بنجاح');
     }
 
-    /**
-     * عرض نموذج تعديل المؤتمر
-     */
+ 
+     
+  
     public function edit($id)
     {
         $conference = AnnualConference::findOrFail($id);
         return view('admin.annual_conferences.edit', compact('conference'));
     }
 
-    /**
-     * تحديث بيانات المؤتمر
-     */
+    
     public function update(Request $request, $id)
     {
         $conference = AnnualConference::findOrFail($id);
@@ -182,9 +173,7 @@ class ConferenceController extends Controller
                          ->with('success', 'تم تحديث المؤتمر بنجاح');
     }
 
-    /**
-     * حذف المؤتمر
-     */
+    
     public function destroy($id)
     {
         $conference = AnnualConference::findOrFail($id);
@@ -197,14 +186,15 @@ class ConferenceController extends Controller
    
     public function showParticipants($id)
 {
-    // جلب المؤتمر بناءً على المعرف
+   
     $conference = AnnualConference::findOrFail($id);
 
-    // جلب المشاركين في المؤتمر بناءً على المؤتمر المحدد
+    
     $registrations = ConferenceRegistration::where('conference_id', $id)->get();
 
-    // عرض المؤتمر والمشاركين
+   
     return view('admin.participants', compact('conference', 'registrations'));
 }
+
 
 }

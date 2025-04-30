@@ -14,7 +14,7 @@
         body {
             direction: rtl;
             font-family: 'Cairo', sans-serif;
-            background-color: #fff; /* الخلفية أصبحت بيضاء */
+            background-color: #fff; 
             display: flex;
             align-items: center;
             justify-content: center;
@@ -114,7 +114,8 @@
       <i class="fas fa-building"></i>
     </div>
     <h2>تسجيل دخول حساب مؤسسة</h2>
-    <form action="#" method="POST">
+    <form action="{{ route('organization.login.submit') }}" method="POST">
+      @csrf
       <div class="input-group">
         <i class="fas fa-envelope"></i>
         <input type="text" name="email_or_phone" placeholder="البريد الإلكتروني أو رقم الهاتف" required>
@@ -128,11 +129,9 @@
       <a href="#" class="forgot-password">هل نسيت كلمة السر؟</a>
 
       <button class="btn-organization" type="submit">تسجيل دخول</button>
-      <a class="register-link" href="{{ route('register_organization') }}">إنشاء حساب مؤسسة</a>
+      <a class="register-link" href="{{ route('organization.register') }}">إنشاء حساب مؤسسة</a>
     
       <a href="{{ route('index') }}" class="register-link">الرجوع الى الصفحة الرئيسية</a>
-
-
     </form>
   </div>
 

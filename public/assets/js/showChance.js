@@ -12,45 +12,64 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 });
 // -------------------------------------------------------- سجل الان \ عرض التفاصيل 
+const csrfToken = document.querySelector('meta[name="csrf-token"]')?.content;
 
-document.querySelectorAll('.register-btn').forEach(button => {
-    button.addEventListener('click', function(event) {
-        // 🛑 أوقف تفعيل الرابط
-        event.stopPropagation();  
-        event.preventDefault();  
+function register(oppId ,userId) {
 
-        let card = this.closest('.opportunity-card');
-        let currentCountElement = card.querySelector('.current-participants');
-        let totalCountElement = card.querySelector('.total-participants');
-        let progressBar = card.querySelector('.progress');
+    console.log(userId, oppId)
 
-        let currentCount = parseInt(currentCountElement.textContent);
-        let totalCount = parseInt(totalCountElement.textContent);
+    fetch(`/opportunity/register`, {
+        method: 'POST',
+        headers: {
+            "Content-Type": "application/json",
+            "Accept": "application/json",
+            "X-CSRF-Token": csrfToken
+        },
+        body: JSON.stringify({
+            userId: userId,
+            oppId: oppId
+        })
+    })
+    .then(response => {
+        if (response.ok) {
+            console.log('Registration successful');
 
-        if (currentCount < totalCount) {
-            currentCount += 1;
-            currentCountElement.textContent = currentCount;
-
-            let percentage = (currentCount / totalCount) * 100;
-            progressBar.style.width = percentage + '%';
-
-            if (currentCount === totalCount) {
-                this.textContent = "ممتلئ";
-                this.disabled = true;
-                this.style.backgroundColor = "#999";
-            }
+        } else {
+            console.log('Error during registration');
         }
+    })
+    .catch(error => {
+        console.error('Fetch error:', error);
+    });
+
+    window.location.reload();
+
+}
+document.addEventListener('DOMContentLoaded', function() {
+    document.querySelectorAll('.rssegister-btn').forEach(button => {
+        button.addEventListener('click', async function(event) {
+            let userId = button.getAttribute('data-user-id')
+            let oppId = button.getAttribute('data-opp-id')
+            console.log(userId, oppId)
+            
+                console.log("form")
+                const form = this.closest('form');
+                const card = this.closest('.opportunity-card');
+                const csrfToken = document.querySelector('meta[name="csrf-token"]')?.content;
+                const originalButton = this;
+
+
+        });
     });
 });
-
 
 
 // ---------------------------------------------------------navbar active link
 document.querySelectorAll('.navbar-nav .nav-link').forEach(item => {
         item.addEventListener('click', function() {
             document.querySelectorAll('.navbar-nav .nav-link').forEach(link => {
-                link.classList.remove('active'); // إزالة الفئة "active" من جميع الروابط
+                link.classList.remove('active'); 
             });
-            this.classList.add('active'); // إضافة الفئة "active" على الرابط الذي تم النقر عليه
+            this.classList.add('active'); 
         });
     });

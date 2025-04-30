@@ -33,6 +33,7 @@
         width: 100%;
         flex-wrap: wrap;
         justify-content: center;
+        position: relative;
       }
 
       .card {
@@ -43,6 +44,7 @@
         width: 300px;
         box-shadow: 0 4px 10px rgba(0,0,0,0.1);
         transition: transform 0.3s;
+        margin-top: 25px;
       }
 
       .card:hover {
@@ -92,6 +94,29 @@
         color: #029a84;
         text-decoration: underline;
       }
+      .btn-login {
+        outline: none;
+        box-shadow: none;
+      }
+      
+      .btn-back {
+        position: absolute;
+        top: 15px;
+        right: 15px;
+        background-color: transparent;
+        color: #02d3ac;
+        border: 1px solid #02d3ac;
+        padding: 5px 15px;
+        border-radius: 8px;
+        cursor: pointer;
+        font-size: 14px;
+        transition: all 0.3s;
+      }
+      
+      .btn-back:hover {
+        background-color: #02d3ac;
+        color: white;
+      }
 
       @media (max-width: 700px) {
         .containerLog {
@@ -104,12 +129,22 @@
           width: 100%;
           margin-bottom: 20px;
         }
+        
+        .btn-back {
+          position: relative;
+          top: auto;
+          right: auto;
+          margin-bottom: 15px;
+        }
       }
     </style>
 </head>
 <body>
-
+  
   <div class="containerLog">
+    <!-- زر الرجوع إلى الصفحة الرئيسية -->
+    <button class="btn-back" onclick="location.href='{{ route('index') }}'">الرجوع إلى الصفحة الرئيسية</button>
+    
     <!-- حساب شخصي -->
     <div class="card">
       <div class="icon"><i class="fas fa-user"></i></div>
@@ -117,20 +152,20 @@
       
       <!-- استبدل الرابط بالزر التالي -->
       <form action="{{ route('login1') }}" method="GET" style="display: inline;">
-        
           <button type="submit" class="btn-login">تسجيل الدخول</button>
       </form>
       
       <a class="link" href="{{ route('register') }}">إنشاء حساب شخصي</a>
-  </div>
+    </div>
 
     <!-- حساب مؤسسة -->
-    {{-- <div class="card">
+    <div class="card">
       <div class="icon"><i class="fas fa-building"></i></div>
       <h3>حساب مؤسسة</h3>
-      <button class="btn-login" onclick="window.location.href='{{ route('login_organization') }}'">تسجيل الدخول</button>
-      <a class="link" href="{{ route('register_organization') }}">إنشاء حساب مؤسسة</a>    </div>
-  </div> --}}
+      <button class="btn-login" onclick="location.href='{{ route('organization.login') }}'">تسجيل الدخول</button>
+      <a class="link" href="{{ route('organization.register') }}">إنشاء حساب مؤسسة</a> 
+    </div>
+  </div>
 
 </body>
 </html>

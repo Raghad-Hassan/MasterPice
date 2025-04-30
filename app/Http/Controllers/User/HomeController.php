@@ -8,21 +8,14 @@ use App\Models\AnnualConference;
 
 class HomeController extends Controller
 {
-    // public function index()
-    // {
-    //     $conferences = AnnualConference::where('active', true)
-    //                                  ->orderBy('date', 'desc')
-    //                                  ->get();
-        
-    //     return view('conferences.show', compact('conferences'));
-    
-    // }
+   
 
     public function index()
     {
-        $conference = AnnualConference::where('active', true)
+        $conferences = AnnualConference::where('status', 'active')
                                     ->orderBy('date', 'desc')
-                                    ->first(); // بدلاً من get()
-        
-        return view('index', compact('conference'));
+                                    ->get(); 
+        // dd($conferences);
+        return view('index', compact('conferences'));
     }}
+

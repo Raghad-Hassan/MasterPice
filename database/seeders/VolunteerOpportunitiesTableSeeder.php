@@ -18,7 +18,6 @@ class VolunteerOpportunitiesTableSeeder extends Seeder
             'category' => 'education',
             'city' => 'amman',
             'total_hours' => 100,
-            'required_hours' => 10,
             'start_date' => '2023-10-01',
             'end_date' => '2023-12-31',
             'gender' => 'all',
@@ -27,11 +26,14 @@ class VolunteerOpportunitiesTableSeeder extends Seeder
             'status' => 'available',
             'total_participants' => 15, // قيمة للحقل المطلوب
             'current_participants' => 0,
-            'working_days' => 'السبت,الأحد,الاثنين',
-            'working_hours' => '9:00-15:00',
             'min_hours' => 2,
             'max_hours' => 6,
-            'transport_available' => false
+            'transportation' => 'available',
+            'days' => 'السبت والأحد',
+            'start_time' => '09:00',
+            'end_time' => '15:00',
+            'image' => 'path/to/image.jpg',
+            
         
         ]);
     }

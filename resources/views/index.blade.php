@@ -5,7 +5,7 @@
 <div id="carouselExampleControls" class="carousel slide" data-ride="carousel" style="height: 610px; overflow: hidden;">
     <div class="carousel-inner" style="height: 100%;">
         <div class="carousel-item active">
-            <img class="d-block w-100" src="{{ asset('assets/img/IMG.jpg') }}" alt="First slide" style="object-fit: cover; width: 100%; height: 100%;">
+            <img class="d-block w-100" src="{{ asset('assets/img/IMG.jpg') }}" alt="First slide" style="c width: 100%; height: 100%;">
         </div>
         <div class="carousel-item">
             <img class="d-block w-100" src="{{ asset('assets/img/موضوع_عن_العمل_التطوعي1.jpg') }}" alt="Second slide" style="object-fit: cover; width: 100%; height: 100%;">

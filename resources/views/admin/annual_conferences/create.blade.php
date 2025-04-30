@@ -25,6 +25,15 @@
             @enderror
         </div>
         
+        <div class="form-group">
+            <label for="activities">الأنشطة</label>
+            <textarea class="form-control" id="activities" name="activities" rows="3" required></textarea>
+            @error('activities')
+                <span class="text-danger">{{ $message }}</span>
+            @enderror
+        </div>
+
+
         <!-- حقل الوصف -->
         <div class="form-group">
             <label for="description">وصف المؤتمر</label>

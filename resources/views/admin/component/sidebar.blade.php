@@ -11,6 +11,21 @@
             </a>
         </li>
 
+        <li class="{{ request()->is('admin/users*') ? 'active' : '' }}">
+            <a href="{{ route('admin.users.index') }}" class="nav-link">
+                <i class="fas fa-users"></i>
+                <span>إدارة المستخدمين</span>
+            </a>
+        </li>
+
+        <li class="{{ request()->is('admin/organizations*') ? 'active' : '' }}">
+            <a href="{{ route('admin.organizations.index') }}" class="nav-link">
+                <i class="fas fa-building"></i>
+                <span>إدارة المؤسسات</span>
+            </a>
+        </li>
+
+
         <li class="{{ request()->is('admin/annual-conferences*') ? 'active' : '' }}">
             <a href="{{ route('admin.annual-conferences.index') }}" class="nav-link">
                 <i class="fas fa-shopping-cart"></i>
@@ -24,9 +39,22 @@
         </li>
         
         <li class="{{ request()->is('admin/ideas*') ? 'active' : '' }}">
-            <i class="fas fa-lightbulb"></i>
-            <span><a href="{{ route('ideas.index') }}"class="nav-link"> بنك الافكار</span>
+            <i class="fas fa-chart-line"></i>
+            <span><a href="{{ route('admin.ideas.index') }}"class="nav-link"> بنك الافكار</span>
         </li>
+
+        <li class="{{ request()->is('admin/feedbacks*') ? 'active' : '' }}">
+            <i class="fas fa-comments"></i>
+            <span><a href="{{ route('admin.feedbacks.index') }}" class="nav-link">آراء المستخدمين</a></span>
+        </li>
+
+        <li class="{{ request()->is('admin/newsletter*') ? 'active' : '' }}">
+            <i class="fas fa-envelope"></i>
+            <span>
+                <a href="{{ route('admin.newsletter.index') }}" class="nav-link">النشرة البريدية</a>
+            </span>
+        </li>
+
 
         <li class="{{ request()->is('admin/settings*') ? 'active' : '' }}">
             <i class="fas fa-cog"></i>

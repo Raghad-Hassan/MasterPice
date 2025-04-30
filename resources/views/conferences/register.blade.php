@@ -4,10 +4,10 @@
 
 <div class="container mt-5">
     <div class="form-container">
-        <a href="{{ route('conferences.register.form', $conferences->id) }}">التسجيل في المؤتمر</a>
+        
 
-        <!-- نموذج التسجيل -->
-        <form action="{{ route('conferences.register.submit', $conferences->id) }}" method="POST">
+        
+        <form action="{{ route('conferences.register.submit', $conference->id) }}" method="POST">
             @csrf
             <div class="mb-3">
                 <label class="form-label">الاسم الكامل:</label>
@@ -37,11 +37,11 @@
                 <label class="form-label">مجال الاهتمام:</label>
                 <select name="interest_field" class="form-control" required>
                     <option value="" selected disabled>اختر مجال الاهتمام</option>
-                    <option value="التعليم">التعليم</option>
-                    <option value="البيئة">البيئة</option>
-                    <option value="الصحة">الصحة</option>
-                    <option value="الدعم النفسي">الدعم النفسي</option>
-                    <option value="إدارة الفعاليات">إدارة الفعاليات</option>
+                    <option value="education">التعليم</option>
+                    <option value="environment">البيئة</option>
+                    <option value="health">الصحة</option>
+                    <option value="health_support">الدعم النفسي</option>
+                    <option value="event_management">إدارة الفعاليات</option>
                 </select>
                 @error('interest_field')
                     <div class="text-danger mt-2">{{ $message }}</div>
@@ -52,12 +52,11 @@
                 <label class="form-label">المدينة / الدولة:</label>
                 <select name="city" class="form-control" required>
                     <option value="" selected disabled>اختر المدينة / الدولة</option>
-                    <option value="عمان - الأردن">عمان - الأردن</option>
-                    <option value="إربد - الأردن">إربد - الأردن</option>
-                    <option value="الزرقاء - الأردن">الزرقاء - الأردن</option>
-                    <option value="العقبة - الأردن">العقبة - الأردن</option>
-                    <option value="دبي - الإمارات">دبي - الإمارات</option>
-                    <option value="الرياض - السعودية">الرياض - السعودية</option>
+                    <option value="amman">عمان</option>
+                    <option value="irbid">إربد</option>
+                    <option value="zarqa">الزرقاء</option>
+                    <option value="karak">الكرك</option>
+                    <option value="other">أخرى</option>
                 </select>
                 @error('city')
                     <div class="text-danger mt-2">{{ $message }}</div>
@@ -68,8 +67,8 @@
                 <label class="form-label">هل لديك خبرة سابقة في التطوع؟</label>
                 <select name="previous_experience" class="form-control" required>
                     <option value="" selected disabled>اختر</option>
-                    <option value="نعم">نعم</option>
-                    <option value="لا">لا</option>
+                    <option value="yes">نعم</option>
+                    <option value="no">لا</option>
                 </select>
                 @error('previous_experience')
                     <div class="text-danger mt-2">{{ $message }}</div>

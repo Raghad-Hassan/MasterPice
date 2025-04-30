@@ -18,6 +18,13 @@
         @method('PUT')
         
         <div class="form-group">
+            <label for="activities">الأنشطة</label>
+            <input type="text" class="form-control" id="activities" name="activities" value="{{ $conference->activities }}" required>
+            @error('activities')
+                <span class="text-danger">{{ $message }}</span>
+            @enderror
+        </div>
+        <div class="form-group">
             <label for="title">اسم المؤتمر</label>
             <input type="text" class="form-control" id="title" name="title" value="{{ $conference->title }}" required>
             @error('title')
@@ -37,7 +44,7 @@
             <div class="col-md-6">
                 <div class="form-group">
                     <label for="date">تاريخ المؤتمر</label>
-                    <input type="date" class="form-control" id="date" name="date" value="{{ $conference->date }}" required>
+                    <input type="date" class="form-control" id="date" name="date" value="{{ \Carbon\Carbon::parse($conference->date)->format('Y-m-d') }}" required>
                     @error('date')
                         <span class="text-danger">{{ $message }}</span>
                     @enderror

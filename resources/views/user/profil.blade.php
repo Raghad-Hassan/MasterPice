@@ -3,7 +3,8 @@
 <div class="profile-container">
     <!-- رأس البروفايل -->
     <div class="profile-header">
-        <img src="{{ Auth::user()->profile_photo ?? 'default-profile.jpg' }}" alt="صورة البروفايل" class="profile-image">
+        <img src="{{ Auth::user()->profile_image ?? asset('default-profile.jpg') }}" alt="صورة البروفايل" class="profile-image">
+
         <div class="profile-info">
             <h1 class="profile-name">{{ Auth::user()->name }}</h1>
             <p class="profile-title">متطوع نشيط منذ {{ Auth::user()->created_at->format('Y') }}</p>
@@ -14,15 +15,15 @@
             <!-- إحصائيات سريعة -->
             <div style="display: flex; gap: 20px; margin-top: 20px;">
                 <div>
-                    {{-- <div style="font-size: 1.2rem; font-weight: 600;">{{ $volunteerHours }}</div> --}}
+                    <div style="font-size: 1.2rem; font-weight: 600;">{{ $volunteerHours }}</div>
                     <div style="color: #666;">ساعة تطوع</div>
                 </div>
                 <div>
-                    {{-- <div style="font-size: 1.2rem; font-weight: 600;">{{ $completedProjects }}</div> --}}
+                    <div style="font-size: 1.2rem; font-weight: 600;">{{ $completedProjects }}</div>
                     <div style="color: #666;">مشروع</div>
                 </div>
                 <div>
-                    {{-- <div style="font-size: 1.2rem; font-weight: 600;">{{ $certificatesCount }}</div> --}}
+                    <div style="font-size: 1.2rem; font-weight: 600;">{{ $certificatesCount }}</div>
                     <div style="color: #666;">شهادة</div>
                 </div>
             </div>
@@ -42,22 +43,14 @@
     </div>
     
     <!-- المهارات -->
-    {{-- <div class="profile-section">
-        <h2 class="section-title">
-            <i class="fas fa-user" style="margin-left: 10px;"></i>
-            نبذة عني
-        </h2>
-        <p class="bio-text">{{ Auth::user()->bio ?? 'نبذة غير متوفرة' }}</p>
-    </div> --}}
-
-
-        <div class="skills-list">
-            {{-- @foreach($skills as $skill)
+        {{-- <div class="skills-list">
+            @foreach($skills as $skill)
                 <span class="skill-badge">{{ $skill->name }}</span>
-            @endforeach --}}
+            @endforeach
         </div>
-    </div>
+    </div> --}}
     
+
     <!-- النشاطات التطوعية -->
     <div class="profile-section">
         <h2 class="section-title">
@@ -67,15 +60,15 @@
         
         <div class="stats-container">
             <div class="stat-card">
-                {{-- <div class="stat-number">{{ $volunteerHours }}</div> --}}
+                <div class="stat-number">{{ $volunteerHours }}</div>
                 <div class="stat-label">ساعة تطوع</div>
             </div>
             <div class="stat-card">
-                {{-- <div class="stat-number">{{ $completedProjects }}</div> --}}
+                <div class="stat-number">{{ $completedProjects }}</div>
                 <div class="stat-label">مشاريع شاركت بها</div>
             </div>
             <div class="stat-card">
-                {{-- <div class="stat-number">{{ $collaboratedAssociations }}</div> --}}
+                <div class="stat-number">{{ $completedProjects }}</div>
                 <div class="stat-label">جمعيات تعاونت معها</div>
             </div>
         </div>
@@ -88,19 +81,25 @@
             آخر الأنشطة
         </h2>
         <ul class="activity-list">
-            {{-- @foreach($recentActivities as $activity)
+            @forelse($recentActivities as $activity)
                 <li class="activity-item">
                     <div class="activity-icon">
-                        <i class="fas {{ $activity->icon }}"></i>
+                        <i class="fas fa-hand-holding-heart"></i> {{-- أيقونة عامة للفرص مثلاً --}}
                     </div>
                     <div class="activity-details">
-                        <h3 class="activity-title">{{ $activity->title }}</h3>
-                        <p class="activity-date">{{ $activity->date }} - {{ $activity->association }}</p>
+                        <h3 class="activity-title">{{ $activity->opportunity->title }}</h3>
+                        <p class="activity-date">
+                            {{ $activity->created_at->format('Y-m-d') }} - 
+                            {{ $activity->opportunity->location ?? 'لا يوجد مكان محدد' }}
+                        </p>
                     </div>
                 </li>
-            @endforeach --}}
+            @empty
+                <li>لا توجد أنشطة مسجلة بعد.</li>
+            @endforelse
         </ul>
     </div>
+    
     
     <!-- شهادات التطوع -->
     <div class="profile-section">
@@ -120,19 +119,6 @@
                         </a>
                     </div>
                 </div>
-            @endforeach --}}
-        </div>
-    </div>
-    
-    <!-- مجالات الاهتمام التطوعي -->
-    <div class="profile-section">
-        <h2 class="section-title">
-            <i class="fas fa-heart" style="margin-left: 10px;"></i>
-            مجالات اهتمامي التطوعية
-        </h2>
-        <div class="interests-list">
-            {{-- @foreach($interests as $interest)
-                <span class="interest-badge">{{ $interest->name }}</span>
             @endforeach --}}
         </div>
     </div>

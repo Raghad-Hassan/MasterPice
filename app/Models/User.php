@@ -98,11 +98,31 @@ class User extends Authenticatable
 
     public function projects()
     {
-        return $this->belongsToMany(Project::class);
+        return $this->belongsToMany(Project::class, 'user_project');
     }
 
     public function volunteeringStats()
     {
         return $this->hasOne(VolunteeringStats::class);
     }
+
+    public function feedbacks()
+{
+    return $this->hasMany(Feedback::class);
+}
+
+public function skills()
+{
+    return $this->belongsToMany(Skill::class);
+}
+
+
+
+public function volunteerOpportunities()
+{
+    return $this->belongsToMany(VolunteerOpportunity::class, 'volunteer_opportunity_user')
+                ->withTimestamps()
+                ->withPivot('status');
+}
+
 }

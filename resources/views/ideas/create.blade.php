@@ -26,6 +26,7 @@
                         <small class="text-danger">{{ $message }}</small>
                     @enderror
                 </div>
+                
 
                 <div class="col-md-6">
                     <label for="ideaRegion" class="form-label">المنطقة المقترحة</label>
@@ -54,8 +55,8 @@
 
             <div class="row">
                 <div class="col-12">
-                    <label for="ideaDescription" class="form-label">وصف الفكرة</label>
-                    <textarea class="form-control" name="idea_description" id="ideaDescription" rows="3" required>{{ old('idea_description') }}</textarea>
+                    <label for="idea_description" class="form-label">وصف الفكرة</label>
+                    <textarea class="form-control" name="idea_description" id="idea_description" rows="3" required>{{ old('idea_description') }}</textarea>
                     @error('idea_description')
                         <small class="text-danger">{{ $message }}</small>
                     @enderror
@@ -112,7 +113,7 @@
     </div>
 </div>
 
-{{-- إشعار النجاح --}}
+
 @if(session('success'))
     <div class="alert alert-success text-center mt-3" id="success-alert">
         {{ session('success') }}
@@ -128,4 +129,3 @@
     </script>
 @endif
 
-@include('component.footer')

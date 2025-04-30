@@ -499,9 +499,12 @@
                 color:#02d3ac;
                 font-weight: bold; 
             }
+            .sidebar {
+            max-height: 100vh; 
+            overflow-y: auto;
+            }
 
-
-        /* التجاوبية */
+        
         @media (max-width: 1200px) {
             .stats-cards {
                 grid-template-columns: repeat(2, 1fr);

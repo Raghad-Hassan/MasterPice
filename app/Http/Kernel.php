@@ -73,6 +73,8 @@ class Kernel extends HttpKernel
         'volunteer' => \App\Http\Middleware\VolunteerMiddleware::class,
         'is_admin' => \App\Http\Middleware\AdminMiddleware::class,
         'auth.user' => \App\Http\Middleware\EnsureUserIsAuthenticated::class,
+        'organization' => \App\Http\Middleware\OrganizationMiddleware::class,
+        
     ];
 
 }

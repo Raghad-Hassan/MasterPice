@@ -1,7 +1,7 @@
 @include('component.header')
 <link rel="stylesheet" href="{{ asset('assets/css/تعرف علينا.css') }}"> 
 <div class="container mt-4 text-center">
-    <img src="{{ asset('assets/img/heart-7751749_1280.jpg') }}" alt="صورة توضيحية" class="img-fluid" style="height: 500px;width: 1000px;">
+    <img src="{{ asset('assets/img/img3.jpeg') }}" alt="صورة توضيحية" class="img-fluid" style="height: 500px;width: 1000px;">
   </div>
 
 

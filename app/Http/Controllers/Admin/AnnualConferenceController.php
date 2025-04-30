@@ -21,7 +21,7 @@ class AnnualConferenceController extends Controller
 
     public function store(Request $request)
 {
-    // التحقق من صحة البيانات المدخلة
+    
     $request->validate([
         'title' => 'required|string|max:255',
         'description' => 'required|string',
@@ -31,7 +31,7 @@ class AnnualConferenceController extends Controller
         'organizations_count' => 'required|integer',
         'activities' => 'required|string',
         'workshops' => 'required|string',
-        'image' => 'nullable|image',  // تأكد من أن الصورة اختيارية
+        'image' => 'nullable|image', 
     ]);
 
     

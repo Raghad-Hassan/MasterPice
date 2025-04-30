@@ -30,7 +30,7 @@
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             width: 1000px;
             text-align: center;
-            margin-top: 800px;
+            margin-top: 670px;
         }
 
         h1 {
@@ -139,109 +139,107 @@
         <h1><i class="fas fa-building"></i> إنشاء حساب مؤسسة</h1>
         <a class="back-link" href="{{ route('index') }}"><i class="fas fa-arrow-left"></i> الرجوع الى الصفحه الرئيسية</a>
 
-        <!-- الحقول الأساسية -->
-        <div class="form-group">
-            <div class="form-row">
-                <div class="col">
-                    <label for="organization_name">اسم المؤسسة</label>
-                    <input type="text" id="organization_name" name="organization_name" placeholder="اسم المؤسسة" required>
+        <form action="{{ route('organization.register') }}" method="POST">
+            @csrf
+            <!-- الحقول الأساسية -->
+            <div class="form-group">
+                <div class="form-row">
+                    <div class="col">
+                        <label for="organization_name">اسم المؤسسة</label>
+                        <input type="text" id="organization_name" name="organization_name" placeholder="اسم المؤسسة" required>
+                    </div>
+                    <div class="col">
+                        <label for="website">الموقع الإلكتروني</label>
+                        <input type="url" id="website" name="website" placeholder="الموقع الإلكتروني" required>
+                    </div>
                 </div>
-                <div class="col">
-                    <label for="website">الموقع الإلكتروني</label>
-                    <input type="url" id="website" name="website" placeholder="الموقع الإلكتروني" required>
+
+                <div class="form-row">
+                    <div class="col">
+                        <label for="first_name">الاسم الأول</label>
+                        <input type="text" id="first_name" name="first_name" placeholder="الاسم الأول" required>
+                    </div>
+                    <div class="col">
+                        <label for="last_name">اسم العائلة</label>
+                        <input type="text" id="last_name" name="last_name" placeholder="اسم العائلة" required>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="col">
+                        <label for="email">البريد الإلكتروني</label>
+                        <input type="email" id="email" name="email" placeholder="البريد الإلكتروني" required>
+                    </div>
+                    <div class="col">
+                        <label for="phone">رقم الهاتف</label>
+                        <input type="tel" id="phone" name="phone" placeholder="رقم الهاتف" required>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="col">
+                        <label for="password">كلمة السر</label>
+                        <input type="password" id="password" name="password" placeholder="كلمة السر" required>
+                    </div>
+                    <div class="col">
+                        <label for="password_confirmation">تأكيد كلمة السر</label>
+                        <input type="password" id="password_confirmation" name="password_confirmation" placeholder="تأكيد كلمة السر" required>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="col">
+                        <label for="governorate">المحافظة</label>
+                        <select id="governorate" name="governorate" required>
+                            <option value="">-- اختر المحافظة --</option>
+                            <option value="Amman">عمان</option>
+                            <option value="Zarqa">الزرقاء</option>
+                            <option value="Irbid">إربد</option>
+                            <option value="Aqaba">العقبة</option>
+                        </select>
+                    </div>
+                    <div class="col">
+                        <label for="sector">القطاع</label>
+                        <select id="sector" name="sector" required>
+                            <option value="">-- اختر القطاع --</option>
+                            <option value="private">قطاع خاص</option>
+                            <option value="NGO">منظمة غير ربحية</option>
+                        </select>
+                    </div>
                 </div>
             </div>
 
-            <div class="form-row">
-                <div class="col">
-                    <label for="first_name">الاسم الأول</label>
-                    <input type="text" id="first_name" name="first_name" placeholder="الاسم الأول" required>
-                </div>
-                <div class="col">
-                    <label for="last_name">اسم العائلة</label>
-                    <input type="text" id="last_name" name="last_name" placeholder="اسم العائلة" required>
-                </div>
-            </div>
+            <!-- المعلومات المتعلقة بشهادة التسجيل -->
+            <div class="card">
+                <h3 class="card-title">المعلومات المتعلقة بشهادة التسجيل :</h3>
 
-            <div class="form-row">
-                <div class="col">
-                    <label for="email">البريد الإلكتروني</label>
-                    <input type="email" id="email" name="email" placeholder="البريد الإلكتروني" required>
+                <div class="form-group">
+                    <label for="national_id">الرقم الوطني للمنشأة</label>
+                    <input type="text" id="national_id" name="national_id" placeholder="الرقم الوطني للمنشأة" required>
                 </div>
-                <div class="col">
-                    <label for="phone">رقم الهاتف</label>
-                    <input type="tel" id="phone" name="phone" placeholder="رقم الهاتف" required>
-                </div>
-            </div>
 
-            <div class="form-row">
-                <div class="col">
-                    <label for="password">كلمة السر</label>
-                    <input type="password" id="password" name="password" placeholder="كلمة السر" required>
-                </div>
-                <div class="col">
-                    <label for="confirm_password">تأكيد كلمة السر</label>
-                    <input type="password" id="confirm_password" name="confirm_password" placeholder="تأكيد كلمة السر" required>
-                </div>
-            </div>
-
-            <div class="form-row">
-                <div class="col">
-                    <label for="governorate">المحافظة</label>
-                    <select id="governorate" name="governorate" required>
-                        <option value="">-- Governorate --</option>
-                        <option value="Amman">عمان</option>
-                        <option value="Zarqa">الزرقاء</option>
-                        <option value="Irbid">إربد</option>
-                        <option value="Aqaba">العقبة</option>
+                <div class="form-group">
+                    <label for="volunteer_services">هل ترغب في تقديم خدمات تطوعية ضمن مجال عمل المركز الوطني للأمن وإدارة الأزمات؟*</label>
+                    <select id="volunteer_services" name="volunteer_services" required>
+                        <option value="yes">نعم</option>
+                        <option value="no">لا</option>
                     </select>
                 </div>
-                <div class="col">
-                    <label for="sector">القطاع</label>
-                    <select id="sector" name="sector" required>
-                        <option value="">-- قطاع --</option>
-                        <option value="private">قطاع خاص</option>
-                        <option value="NGO">منظمة غير ربحية</option>
-                    </select>
+
+                <div class="form-group">
+                    <label for="volunteer_type">ما هو نوع التطوع الذي ترغب في تقديمه؟</label>
+                    <input type="text" id="volunteer_type" name="volunteer_type" placeholder="نوع التطوع" required>
                 </div>
+
+                <div class="form-group">
+                    <label for="logistics_services">يرجى تحديد ما هي الخدمات اللوجستية التي يمكنك تقديمها</label>
+                    <input type="text" id="logistics_services" name="logistics_services" placeholder="الخدمات اللوجستية" required>
+                </div>
+
+                <button type="submit">تسجيل</button>
+                <a href="{{ route('organization.login') }}" class="forget-password-register">تسجيل الدخول لحساب مؤسسة</a>
             </div>
-        </div>
-
-        <!-- المعلومات المتعلقة بشهادة التسجيل -->
-        <div class="card">
-            <h3 class="card-title">المعلومات المتعلقة بشهادة التسجيل :</h3>
-
-            <div class="form-group">
-                <label for="organization_name">اسم الجهة</label>
-                <input type="text" id="organization_name" name="organization_name" placeholder="اسم الجهة" required>
-            </div>
-
-            <div class="form-group">
-                <label for="national_id">الرقم الوطني للمنشأة</label>
-                <input type="text" id="national_id" name="national_id" placeholder="الرقم الوطني للمنشأة" required>
-            </div>
-
-            <div class="form-group">
-                <label for="volunteer_services">هل ترغب في تقديم خدمات تطوعية ضمن مجال عمل المركز الوطني للأمن وإدارة الأزمات؟*</label>
-                <select id="volunteer_services" name="volunteer_services" required>
-                    <option value="yes">نعم</option>
-                    <option value="no">لا</option>
-                </select>
-            </div>
-
-            <div class="form-group">
-                <label for="volunteer_type">ما هو نوع التطوع الذي ترغب في تقديمه؟</label>
-                <input type="text" id="volunteer_type" name="volunteer_type" placeholder="نوع التطوع" required>
-            </div>
-
-            <div class="form-group">
-                <label for="logistics_services">يرجى تحديد ما هي الخدمات اللوجستية التي يمكنك تقديمها</label>
-                <input type="text" id="logistics_services" name="logistics_services" placeholder="الخدمات اللوجستية" required>
-            </div>
-
-            <button type="submit">تسجيل</button>
-            <a href="{{ route('login_organization') }}" class="forget-password-register">تسجيل الدخول لحساب مؤسسة</a>
-        </div>
+        </form>
     </div>
 
 </body>

@@ -75,6 +75,7 @@
                 </tr>
             </thead>
             <tbody>
+                
                 @foreach($registrations as $registration)
                     <tr>
                         <td>{{ $loop->iteration }}</td>
@@ -84,11 +85,17 @@
                         <td>{{ $registration->interest_field }}</td>
                         <td>{{ $registration->city }}</td>
                         <td>{{ $registration->previous_experience ? 'نعم' : 'لا' }}</td>
-                        <td>
+                        {{-- <td>
                             @foreach(json_decode($registration->skills) as $skill)
+                                <span class="custom-badge">{{ $skill }}</span>
+                            @endforeach 
+                        </td> --}}
+                        <td>
+                            @foreach(is_array($registration->skills) ? $registration->skills : json_decode($registration->skills) as $skill)
                                 <span class="custom-badge">{{ $skill }}</span>
                             @endforeach
                         </td>
+                        
                         <td>{{ $registration->participation_reason }}</td>
                     </tr>
                 @endforeach

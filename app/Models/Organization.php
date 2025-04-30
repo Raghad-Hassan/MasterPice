@@ -2,15 +2,16 @@
 
 namespace App\Models;
 
+use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Organization extends Model
+class Organization extends Authenticatable
 {
     use HasFactory;
 
     protected $fillable = [
-        'user_id',
+        
         'organization_name',
         'first_name',
         'last_name',
@@ -29,6 +30,11 @@ class Organization extends Model
         'image'
     ];
 
+    protected $hidden = [
+        'password',
+        'remember_token',
+    ];
+
     public function user()
     {
         return $this->belongsTo(User::class);
@@ -42,5 +48,10 @@ class Organization extends Model
     public function activityLogs()
     {
         return $this->hasMany(OrganizationActivityLog::class);
+    }
+
+    public function sustainableDevelopmentGoals()
+    {
+        return $this->hasMany(SustainableDevelopmentGoal::class);
     }
 }

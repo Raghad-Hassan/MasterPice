@@ -17,8 +17,8 @@ class ConferenceRegistrationController extends Controller
             'phone' => 'required|string|max:15',
             'interest_field' => 'required|string',
             'city' => 'required|string',
-            'previous_experience' => 'required|in:نعم,لا',
-            'experience_details' => 'nullable|string|required_if:previous_experience,نعم',
+            'previous_experience' => 'required|in:yes,no',
+            'experience_details' => 'nullable|string|required_if:previous_experience,yes',
             'skills' => 'nullable|array',
             'skills.*' => 'string',
             'motivation' => 'required|string',
@@ -35,7 +35,7 @@ class ConferenceRegistrationController extends Controller
         $registration->phone = $request->phone;
         $registration->interest_field = $request->interest_field;
         $registration->city = $request->city;
-        $registration->previous_experience = $request->previous_experience == 'نعم' ? true : false;
+        $registration->previous_experience = $request->previous_experience == 'yes' ? true : false;
         $registration->experience_details = $request->experience_details;
         $registration->skills = json_encode($request->skills);
         $registration->motivation = $request->motivation;

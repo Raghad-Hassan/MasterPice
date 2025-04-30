@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Idea;
 
 use App\Models\Idea;
+use App\Models\IdeaLike;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -11,14 +12,16 @@ class IdeaController extends Controller
 {
     public function create()
     {
-        $ideas = Idea::where('status', 'approved')->get();
+        $ideas = Idea::all();  // جلب كل الأفكار من قاعدة البيانات
         return view('ideas.create', compact('ideas'));
     }
+    
 
     public function store(Request $request)
     {
         if (auth()->check()) {
-           
+            
+            // خرائط التحويل
             $fieldMap = [
                 'تعليم' => 'education',
                 'صحة' => 'health',
@@ -26,7 +29,7 @@ class IdeaController extends Controller
                 'تقنية' => 'technology',
                 'اجتماعي' => 'social'
             ];
-
+    
             $cityMap = [
                 'عمان' => 'amman',
                 'الزرقاء' => 'zarqa',
@@ -41,15 +44,15 @@ class IdeaController extends Controller
                 'جرش' => 'jerash',
                 'عجلون' => 'ajloun'
             ];
-
-          
+    
+            
             $request->validate([
-                'field' => 'required',
-                'idea_region' => 'required',
+                'field' => 'required|string',
+                'idea_region' => 'required|string',
                 'idea_description' => 'required|string',
                 'idea_goals' => 'required|string',
                 'idea_duration' => 'required|numeric|min:1',
-                'idea_authorities' => 'required',
+                'idea_authorities' => 'required|string',
             ], [
                 'field.required' => 'يرجى اختيار مجال الفكرة.',
                 'idea_region.required' => 'يرجى اختيار المنطقة المقترحة.',
@@ -60,40 +63,71 @@ class IdeaController extends Controller
                 'idea_duration.min' => 'أقل مدة هي يوم واحد.',
                 'idea_authorities.required' => 'يرجى اختيار الجهة المعنية.',
             ]);
-
-            
+    
+            // حفظ الفكرة في قاعدة البيانات
             $idea = new Idea();
             $idea->user_id = auth()->id();
-            $idea->idea_region = $request->input('idea_region');
-            $idea->idea_description = $request->input('idea_description');
-            $idea->title = 'عنوان افتراضي';
+            $idea->title = 'فكرة جديدة'; // إضافة عنوان افتراضي أو جعله حقل في الفورم
+            $idea->description = $request->input('idea_description'); // تعيين وصف الفكرة
             $idea->field = $fieldMap[$request->input('field')] ?? 'education';
-            $idea->city = $cityMap[$request->input('idea_region')] ?? 'amman';
-            $idea->description = $request->input('idea_description');
+            $idea->city = $cityMap[$request->input('city')] ?? 'amman';
             $idea->idea_goals = $request->input('idea_goals');
-            $idea->duration_days = 0;
+            $idea->duration_days = $request->input('idea_duration');
+            $idea->idea_duration = $request->input('idea_duration', 0); // 0 كقيمة افتراضية
             $idea->related_entities = $request->input('idea_authorities');
-            $idea->idea_duration = $request->input('idea_duration');
-            $idea->idea_authorities = $request->input('idea_authorities');
             $idea->status = 'pending';
-
+    
+            // إذا تم تحميل صورة، نقوم بتخزينها
             if ($request->hasFile('image')) {
                 $idea->image = $request->file('image')->store('ideas', 'public');
             }
+            \Log::info('Request Data:', $request->all());
 
+            // حفظ الفكرة في قاعدة البيانات
             $idea->save();
-
+    
+            // إشعار للمستخدم عند إرسال الفكرة
             auth()->user()->notify(new \App\Notifications\IdeaSubmittedNotification());
-
+    
+            // إعادة التوجيه مع إشعار النجاح
             return redirect()->route('ideas.create')->with('success', 'تم إرسال فكرتك بنجاح وستتم مراجعتها.');
         } else {
             return redirect()->route('login')->with('error', 'من فضلك سجل دخولك أولاً');
         }
     }
+    
+    
 
     public function index()
     {
         $ideas = Idea::with('user')->where('status', 'approved')->get();
         return view('ideas.index', compact('ideas'));
     }
+
+
+
+
+    public function like(Request $request, $ideaId)
+{
+    $user = auth()->user();  
+
+   
+    $existingLike = IdeaLike::where('user_id', $user->id)->where('idea_id', $ideaId)->first();
+
+    if ($existingLike) {
+       
+        $existingLike->delete();
+        $idea = Idea::with('likes')->find($ideaId); 
+        $likesCount = $idea->likes->count();
+        return response()->json(['message' => 'إلغاء الإعجاب', 'likes_count' => $likesCount]);
+    } else {
+      
+        IdeaLike::create([
+            'user_id' => $user->id,
+            'idea_id' => $ideaId,
+        ]);
+        $likesCount = IdeaLike::where('idea_id', $ideaId)->count();
+        return response()->json(['message' => 'إعجاب تم', 'likes_count' => $likesCount]);
+    }
+}
 }

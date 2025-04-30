@@ -26,12 +26,12 @@ class Idea extends Model
     ];
 
     public function user()
-    {
-        return $this->belongsTo(User::class);
-    }
+{
+    return $this->belongsTo(User::class);
+}
 
-    public function likes()
-    {
-        return $this->hasMany(IdeaLike::class);
-    }
+public function likes()
+{
+    return $this->hasMany(IdeaLike::class);
+}
 }

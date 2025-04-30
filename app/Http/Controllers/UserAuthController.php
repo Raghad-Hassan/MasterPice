@@ -46,7 +46,7 @@ public function login(Request $request)
         // التوجيه حسب الدور
         return match ($user->role_id) {
             1 => redirect()->route('admin.dashboard'),
-            3 => redirect()->route('volunteer.dashboard'),
+            3 => redirect()->route('index'),
             default => back()->withErrors(['email_or_phone' => 'نوع المستخدم غير معروف.']),
         };
     }

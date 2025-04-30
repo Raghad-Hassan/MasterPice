@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('ideas', function (Blueprint $table) {
             $table->id(); 
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->string('idea_region'); 
-            $table->text('idea_description'); 
+            $table->string('idea_region')->nullable(); 
+            $table->text('idea_description')->nullable(); 
             $table->string('title'); 
             $table->string('image')->nullable(); 
             $table->enum('field', ['education', 'health', 'environment', 'technology', 'social']); 
@@ -25,7 +25,7 @@ return new class extends Migration
             $table->integer('duration_days'); 
             $table->string('related_entities'); 
             $table->integer('idea_duration'); // المدة المقترحة لتنفيذ الفكرة
-            $table->string('idea_authorities'); // الجهات المعنية$table->integer('likes_count')->default(0); 
+            $table->string('idea_authorities')->default('القطاع الخاص');
             $table->enum('status', ['pending', 'approved', 'rejected'])->default('pending'); 
             $table->timestamps(); 
         });

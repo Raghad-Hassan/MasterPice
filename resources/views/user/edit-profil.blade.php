@@ -3,13 +3,18 @@
 
 <div class="profile-container">
     <div class="profile-header">
-        <div class="profile-picture">
-            <img src="{{ Auth::user()->profile_photo ?? 'default-profile.jpg' }}" id="profileImage">
-            <label for="imageUpload" class="edit-icon">
-                <i class="fas fa-camera"></i>
-                <input type="file" id="imageUpload" accept="image/*" style="display: none;">
-            </label>
-        </div>
+        <form id="uploadForm" action="{{ route('profile.upload.photo') }}" method="POST" enctype="multipart/form-data">
+            @csrf
+            <div class="profile-picture">
+                <!-- عرض الصورة -->
+                <img src="{{ Auth::user()->profile_image ? asset(Auth::user()->profile_image) : asset('default-profile.jpg') }}" id="profileImage">
+                
+                <label for="imageUpload" class="edit-icon">
+                    <i class="fas fa-camera"></i>
+                    <input type="file" id="imageUpload" name="image" accept="image/*" style="display: none;" onchange="document.getElementById('uploadForm').submit();">
+                </label>
+            </div>
+        </form>
 
         @auth
             @php $user = Auth::user(); @endphp
@@ -88,42 +93,6 @@
         });
     </script>
 
-    <!-- معلومات التطوع -->
-    <div class="profile-card">
-        <h3><i class="fas fa-hands-helping"></i> نشاطك التطوعي</h3>
-        <div class="stats">
-            <div class="stat-item">
-                <span class="number">{{ $volunteerHours ?? 0 }}</span>
-                <span class="label">ساعة تطوع</span>
-            </div>
-            <div class="stat-item">
-                <span class="number">{{ $completedProjects ?? 0 }}</span>
-                <span class="label">مشروع شاركت به</span>
-            </div>
-            <div class="stat-item">
-                <span class="number">{{ $upcomingEvents ?? 0 }}</span>
-                <span class="label">فعالية قادمة</span>
-            </div>
-        </div>
-    </div>
-
-    <!-- المهارات والاهتمامات -->
-    <div class="profile-card">
-        <h3><i class="fas fa-star"></i> مهاراتك واهتماماتك</h3>
-        <div class="form-group">
-            <label>المهارات (اختر ما ينطبق)</label>
-            <div class="skills-container">
-                {{-- المهارات تأتي من الـ Controller --}}
-                {{-- @foreach($skills as $skill)
-                    <label class="skill-checkbox">
-                        <input type="checkbox" name="skills[]" value="{{ $skill->id }}"
-                        {{ in_array($skill->id, $userSkills ?? []) ? 'checked' : '' }}>
-                        {{ $skill->name }}
-                    </label>
-                @endforeach --}}
-            </div>
-        </div>
-    </div>
 
     @endauth
 </div>

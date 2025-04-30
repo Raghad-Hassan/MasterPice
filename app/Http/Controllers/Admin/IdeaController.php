@@ -2,47 +2,95 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
-
 use App\Models\Idea;
+use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use App\Notifications\IdeaRejectedNotification;
+
 
 class IdeaController extends Controller
 {
-    // عرض الأفكار في لوحة التحكم
+    
     public function showIdeasForAdmin()
     {
-        // جلب كل الأفكار من قاعدة البيانات
-        $ideas = Idea::all();
+        
+        $ideas = Idea::with('user')->where('status', 'pending')->get();
         return view('admin.ideas.index', compact('ideas'));
     }
 
-    // الموافقة على الفكرة
-    public function approveIdea($id)
+   
+    public function approve(Idea $idea)
     {
-        $idea = Idea::findOrFail($id);
-        $idea->status = 'approved'; // تغيير الحالة إلى "موافقة"
-        $idea->save(); // حفظ التغيير في قاعدة البيانات
+        $idea->status = 'approved'; 
+        $idea->save(); 
 
-        return redirect()->route('admin.ideas.index')->with('success', 'تمت الموافقة على الفكرة!');
+       
+        $idea->user->notify(new \App\Notifications\IdeaSubmittedNotification($idea));
+
+        return redirect()->route('admin.ideas.index')->with('success', 'تمت الموافقة على الفكرة.');
+        }
+
+
+    public function reject(Idea $idea)
+    {
+        $idea->status = 'rejected'; 
+        $idea->save(); 
+
+      
+        $idea->user->notify(new \App\Notifications\IdeaRejectedNotification($idea));
+
+        return redirect()->route('admin.ideas.index')->with('success', 'تم رفض الفكرة.');
     }
 
-    // رفض الفكرة
-    public function rejectIdea($id)
+   
+    public function delete(Idea $idea)
     {
-        $idea = Idea::findOrFail($id);
-        $idea->status = 'rejected'; // تغيير الحالة إلى "مرفوضة"
-        $idea->save(); // حفظ التغيير في قاعدة البيانات
+        $idea->delete(); 
 
-        return redirect()->route('admin.ideas.index')->with('success', 'تم رفض الفكرة!');
+        return redirect()->route('admin.ideas.index')->with('success', 'تم حذف الفكرة.');
     }
 
-    // حذف الفكرة
-    public function deleteIdea($id)
+    
+    public function edit($id)
     {
         $idea = Idea::findOrFail($id);
-        $idea->delete(); // حذف الفكرة من قاعدة البيانات
-
-        return redirect()->route('admin.ideas.index')->with('success', 'تم حذف الفكرة!');
+        return view('admin.ideas.edit', compact('idea'));
     }
+
+   
+   public function update(Request $request, $id)
+{
+    $idea = Idea::findOrFail($id);
+
+    $request->validate([
+        'title' => 'required|string|max:255',
+        'description' => 'required|string|max:1000',
+        'idea_goals' => 'nullable|string|max:1000',
+        'city' => 'nullable|string|max:255',
+        'related_entities' => 'nullable|string|max:1000',
+        'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+    ]);
+
+    $idea->title = $request->input('title');
+    $idea->description = $request->input('description');
+    $idea->idea_goals = $request->input('idea_goals');
+    $idea->city = $request->input('city');
+    $idea->related_entities = $request->input('related_entities');
+
+    if (auth()->user()->is_admin) {
+        if ($request->hasFile('image')) {
+            
+            if ($idea->image) {
+                Storage::disk('public')->delete($idea->image);
+            }
+          
+            $idea->image = $request->file('image')->store('ideas', 'public');
+        }
+    }
+
+    $idea->save();
+
+    return redirect()->route('admin.ideas.index')->with('success', 'تم تحديث الفكرة بنجاح!');
+}
+
 }

@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('phone');
             $table->enum('interest_field', ['education', 'environment', 'health', 'health_support', 'event_management']);
             $table->enum('city', ['amman', 'irbid', 'zarqa', 'karak', 'other']);
-            $table->boolean('previous_experience');
+            $table->enum('previous_experience', ['yes', 'no']);
             $table->json('skills'); // ['organization', 'management', 'photography', 'marketing', 'content_writing']
             $table->text('participation_reason');
             $table->timestamps();
