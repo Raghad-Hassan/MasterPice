@@ -4,112 +4,19 @@
 
 <!-- animate.css CDN -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
-
-<style>
-   
-    .idea-card {
-        background-color: #fdfdfd;
-        transition: transform 0.2s ease-in-out;
-        height: 95%;
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-         
-    }
-
-    .idea-card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-    }
-
-    .idea-title {
-        font-weight: bold;
-        font-size: 1.2rem;
-        color: #333;
-        margin-bottom: 0.5rem;
-    }
-
-    .idea-author {
-        font-size: 0.95rem;
-        color: #6c757d;
-    }
-
-    .like-btn,
-    .eye-btn {
-        font-size: 0.9rem;
-        padding: 6px 12px;
-        border-radius: 10px;
-        transition: all 0.3s ease;
-    }
-
-    .like-btn:hover {
-        background-color: #dc3545;
-        color: white;
-    }
-
-    .eye-btn:hover {
-        background-color: #0d6efd;
-        color: white;
-    }
-
-    .modal-content {
-        background-color: #ffffff;
-        border-radius: 15px;
-        padding: 20px;
-        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
-    }
-
-    .modal-title {
-        color: #0d6efd;
-        font-weight: bold;
-        font-size: 1.4rem;
-    }
-
-    #idea-description {
-        font-size: 1rem;
-        color: #444;
-        margin-bottom: 1rem;
-    }
-
-    .modal-body strong {
-        color: #333;
-    }
-
-    .modal-body span {
-        color: #555;
-    }
-
-    .idea-img {
-        height: 200px;
-        object-fit: cover;
-        width: 100%;
-    }
-
-    @media (max-width: 767px) {
-        .idea-card {
-            margin-bottom: 20px;
-        }
-
-        .modal-dialog {
-            max-width: 95%;
-            margin-left: 
-        }
-    }
-</style>
-
 @include('ideas.create')
 <div class="container">
-    <h2 class="mt-1 text-center">الأفكار المضافة</h2>
+    <h2 class="mt-4 text-center mb-4" style="color: #005364;">الأفكار المضافة</h2>
 
-    <div class="row">
+    <div class="row mt-3 mb-5">
         @forelse($ideas as $idea)
             <div class="col-md-4 mb-4 d-flex">
                 <div class="idea-card border p-3 rounded shadow w-100">
                     @if($idea->image)
-                        <img src="{{ asset('storage/' . $idea->image) }}" alt="صورة الفكرة" class="idea-img img-fluid mb-2 rounded">
-                    @else
-                        <img src="https://via.placeholder.com/300" alt="صورة الفكرة" class="idea-img img-fluid mb-2 rounded">
-                    @endif
+                    <img src="{{ asset('storage/' . $idea->image) }}" alt="صورة الفكرة">
+                @else
+                    <img src="https://via.placeholder.com/300" alt="صورة افتراضية">
+                @endif
 
                     <h5 class="idea-title">{{ $idea->title ?? 'فكرة بدون عنوان' }}</h5>
                     <p class="idea-author">
@@ -194,17 +101,16 @@
 
 <script>
 
-// ملف app.js أو أي ملف JavaScript آخر
-// دالة لتحديث محتويات الـ Modal
+
 function setIdeaDetails(title, userName, ideaDescription, ideaGoals, ideaRegion, field, ideaDuration, relatedEntities) {
-    // تحديث الـ Modal بمحتويات الفكرة
-    document.getElementById('modal-title').innerText = title;  // اسم الفكرة
-    document.getElementById('idea-description').innerText = ideaDescription;  // وصف الفكرة
-    document.getElementById('idea-goals').innerText = ideaGoals;  // أهداف الفكرة
-    document.getElementById('city').innerText = ideaRegion;  // المدينة
-    document.getElementById('idea-field').innerText = field;  // مجال الفكرة
-    document.getElementById('duration_days').innerText = ideaDuration;  // مدة الفكرة (الأيام)
-    document.getElementById('related_entities').innerText = relatedEntities;  // الجهات المعنية
+   
+    document.getElementById('modal-title').innerText = title;  
+    document.getElementById('idea-description').innerText = ideaDescription;  
+    document.getElementById('idea-goals').innerText = ideaGoals; 
+    document.getElementById('city').innerText = ideaRegion; 
+    document.getElementById('idea-field').innerText = field;  
+    document.getElementById('duration_days').innerText = ideaDuration;  
+    document.getElementById('related_entities').innerText = relatedEntities;  
 }
 
     function increaseLike(button, ideaId) {
@@ -219,9 +125,9 @@ function setIdeaDetails(title, userName, ideaDescription, ideaGoals, ideaRegion,
     })
     .then(response => response.json())
     .then(data => {
-        likeCountElement.textContent = data.likes_count;  // تحديث عدد الإعجابات
+        likeCountElement.textContent = data.likes_count;  
         if (data.message === 'إعجاب تم') {
-            button.classList.add('liked');  // إضافة تأثير أو تغيير الشكل عند الإعجاب
+            button.classList.add('liked');  
         } else {
             button.classList.remove('liked');
         }

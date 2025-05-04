@@ -71,6 +71,7 @@ body {
 
 .btn-login:hover {
     background-color: #019f87;
+    color: white;
 }
 
 .navbar-nav .nav-link {
@@ -79,26 +80,26 @@ body {
     text-decoration: none;
 }
 
-/* Hover effect for navbar links */
+
 .navbar-nav .nav-link:hover {
     color: #02d3ac !important;
     transition: color 0.3s ease-in-out;
     border-bottom: 2px solid #02d3ac;
 }
 
-/* Active link styling */
+
 .navbar-nav .nav-link.active {
     color: #02d3ac !important;
     border-bottom: 2px solid #02d3ac;
 }
 
-/* Make navbar content responsive */
+
 @media (max-width: 991px) {
     .navbar-nav {
         text-align: center;
     }
 
-    /* Adjust the font size for smaller screens */
+    
     .navbar-nav .nav-link {
         font-size: 16px;
         margin: 10px 0;
@@ -108,7 +109,7 @@ body {
         padding: 1rem;
     }
 
-    /* Make login button larger on small screens */
+    
     .btn-login {
         font-size: 16px;
         padding: 12px 24px;

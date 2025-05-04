@@ -76,10 +76,10 @@
             <div class="col-md-4 mb-4 d-flex">
                 <div class="idea-card border p-3 rounded shadow w-100">
                     @if($idea->image)
-                        <img src="{{ asset('storage/' . $idea->image) }}" alt="صورة الفكرة" class="idea-img img-fluid mb-2 rounded">
-                    @else
-                        <img src="https://via.placeholder.com/300" alt="صورة الفكرة" class="idea-img img-fluid mb-2 rounded">
-                    @endif
+                    <img src="{{ asset('storage/' . $idea->image) }}" alt="صورة الفكرة">
+                @else
+                    <img src="https://via.placeholder.com/300" alt="صورة افتراضية">
+                @endif
 
                     <div class="mb-2">
                         <span class="badge bg-primary">{{ $idea->field }}</span>

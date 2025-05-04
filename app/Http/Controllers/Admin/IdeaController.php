@@ -6,6 +6,7 @@ use App\Models\Idea;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Notifications\IdeaRejectedNotification;
+use Illuminate\Support\Facades\Storage;
 
 
 class IdeaController extends Controller
@@ -77,20 +78,27 @@ class IdeaController extends Controller
     $idea->city = $request->input('city');
     $idea->related_entities = $request->input('related_entities');
 
-    if (auth()->user()->is_admin) {
-        if ($request->hasFile('image')) {
-            
-            if ($idea->image) {
-                Storage::disk('public')->delete($idea->image);
-            }
-          
-            $idea->image = $request->file('image')->store('ideas', 'public');
+    if ($request->hasFile('image')) {
+       
+        if ($idea->image) {
+            Storage::delete('public/'.$idea->image);
         }
+        
+       
+        $imagePath = $request->file('image')->store('ideas', 'public');
+        $idea->image = $imagePath;
     }
 
     $idea->save();
 
     return redirect()->route('admin.ideas.index')->with('success', 'تم تحديث الفكرة بنجاح!');
 }
+
+public function showApprovedIdeas()
+{
+    $ideas = Idea::with('user')->where('status', 'approved')->get();
+    return view('admin.ideas.approved', compact('ideas'));
+}
+
 
 }

@@ -7,12 +7,13 @@ use App\Models\IdeaLike;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class IdeaController extends Controller
 {
     public function create()
     {
-        $ideas = Idea::all();  // جلب كل الأفكار من قاعدة البيانات
+        $ideas = Idea::all();  
         return view('ideas.create', compact('ideas'));
     }
     
@@ -21,7 +22,7 @@ class IdeaController extends Controller
     {
         if (auth()->check()) {
             
-            // خرائط التحويل
+           
             $fieldMap = [
                 'تعليم' => 'education',
                 'صحة' => 'health',
@@ -64,33 +65,43 @@ class IdeaController extends Controller
                 'idea_authorities.required' => 'يرجى اختيار الجهة المعنية.',
             ]);
     
-            // حفظ الفكرة في قاعدة البيانات
+            
             $idea = new Idea();
             $idea->user_id = auth()->id();
-            $idea->title = 'فكرة جديدة'; // إضافة عنوان افتراضي أو جعله حقل في الفورم
-            $idea->description = $request->input('idea_description'); // تعيين وصف الفكرة
+            $idea->title = 'فكرة جديدة'; 
+            $idea->description = $request->input('idea_description'); 
             $idea->field = $fieldMap[$request->input('field')] ?? 'education';
             $idea->city = $cityMap[$request->input('city')] ?? 'amman';
             $idea->idea_goals = $request->input('idea_goals');
             $idea->duration_days = $request->input('idea_duration');
-            $idea->idea_duration = $request->input('idea_duration', 0); // 0 كقيمة افتراضية
+            $idea->idea_duration = $request->input('idea_duration', 0);
             $idea->related_entities = $request->input('idea_authorities');
             $idea->status = 'pending';
     
-            // إذا تم تحميل صورة، نقوم بتخزينها
-            if ($request->hasFile('image')) {
-                $idea->image = $request->file('image')->store('ideas', 'public');
+           
+            
+        if ($request->hasFile('image')) {
+            
+            if ($idea->image) {
+                Storage::delete('public/'.$idea->image);
             }
-            \Log::info('Request Data:', $request->all());
+            
+            
+            $imagePath = $request->file('image')->store('ideas', 'public');
+            $idea->image = $imagePath;
+        }
 
-            // حفظ الفكرة في قاعدة البيانات
+            
             $idea->save();
     
-            // إشعار للمستخدم عند إرسال الفكرة
+          
             auth()->user()->notify(new \App\Notifications\IdeaSubmittedNotification());
     
-            // إعادة التوجيه مع إشعار النجاح
-            return redirect()->route('ideas.create')->with('success', 'تم إرسال فكرتك بنجاح وستتم مراجعتها.');
+            
+            return back()->with([
+                'success' => 'تم إرسال فكرتك بنجاح وستتم مراجعتها.',
+                'ideas' => Idea::where('status', 'approved')->get()
+            ]);
         } else {
             return redirect()->route('login')->with('error', 'من فضلك سجل دخولك أولاً');
         }

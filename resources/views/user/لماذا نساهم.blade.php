@@ -3,7 +3,7 @@
 <link rel="stylesheet" href="{{ asset('assets/css/لماذا نساهم.css') }}">
 
 <div class="container mt-4 text-center">
-    <img src="{{ asset('assets/img/img7.webp') }}" alt="صورة توضيحية" class="img-fluid" style="height: 600px; width: 1000%; object-fit: cover; border-radius: 10px;margin-top: 20px;">
+    <img src="{{ asset('assets/img/img7.webp') }}" alt="صورة توضيحية" class="img-fluid" style="height: 600px; width: 1000px; object-fit: cover; border-radius: 10px;margin-top: 20px;">
     
 </div>
 

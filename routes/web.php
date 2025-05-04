@@ -152,6 +152,7 @@ Route::prefix('admin')
 
         // Ideas Management
         Route::get('/ideas', [AdminIdeaController::class, 'showIdeasForAdmin'])->name('ideas.index');
+        Route::get('/ideas/approved', [AdminIdeaController::class, 'showApprovedIdeas'])->name('ideas.approved');
         Route::post('/ideas/{idea}/approve', [AdminIdeaController::class, 'approve'])->name('ideas.approve');
         Route::post('/ideas/{idea}/reject', [AdminIdeaController::class, 'reject'])->name('ideas.reject');
         Route::delete('/ideas/{idea}', [AdminIdeaController::class, 'delete'])->name('ideas.delete');

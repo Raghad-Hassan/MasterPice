@@ -43,6 +43,13 @@
             <span><a href="{{ route('admin.ideas.index') }}"class="nav-link"> بنك الافكار</span>
         </li>
 
+        <li class="{{ request()->is('admin/ideas/approved') ? 'active' : '' }}">
+            <i class="fas fa-check-circle"></i>
+            <span>
+                <a href="{{ route('admin.ideas.approved') }}" class="nav-link">الأفكار الموافق عليها</a>
+            </span>
+        </li>
+        
         <li class="{{ request()->is('admin/feedbacks*') ? 'active' : '' }}">
             <i class="fas fa-comments"></i>
             <span><a href="{{ route('admin.feedbacks.index') }}" class="nav-link">آراء المستخدمين</a></span>

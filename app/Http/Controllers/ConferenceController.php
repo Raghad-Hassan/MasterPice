@@ -67,7 +67,7 @@ class ConferenceController extends Controller
             'skills' => json_encode($request->skills),
             'motivation' => $request->motivation,
             'conference_id' => $conferenceId,
-            'user_id' => auth()->id() , // إذا كان مسجل دخول
+            'user_id' => auth()->id() , 
             'participation_reason' => $request->motivation,
         ]);
 
@@ -163,11 +163,7 @@ class ConferenceController extends Controller
         // تحديث المؤتمر
         $conference->update($request->except('image'));
 
-        // إذا كان هناك صورة جديدة، تحديثها
-        if ($request->hasFile('image')) {
-            $imagePath = $request->file('image')->store('conferences', 'public');
-            $conference->update(['image' => $imagePath]);
-        }
+       
 
         return redirect()->route('admin.annual-conferences.index')
                          ->with('success', 'تم تحديث المؤتمر بنجاح');

@@ -1,133 +1,286 @@
+/* ====== الأساسيات ====== */
 body {
     direction: rtl;
-    margin-right: 70px;
     background-color: #eef1f4;
     margin: 0;
     padding: 0;
-    overflow-x: hidden; 
+    overflow-x: hidden;
+    font-family: 'Cairo', sans-serif;
 }
 
+/* ====== روابط التنقل العلوية ====== */
 .top-links {
     max-width: 1100px;
-    margin-top: 150px;
-    margin-right: 100px;
+    margin: 150px auto 30px;
+    padding: 0 15px;
 }
 
 .top-links a {
     color: #333;
     text-decoration: none;
     font-size: 18px;
-    margin-right: 10px;
+    margin-left: 10px;
+    transition: color 0.3s ease;
 }
 
 .top-links a:first-child:hover {
+    color: #005364;
     text-decoration: underline;
 }
 
 .top-links a:last-child {
-    color: #666; 
+    color: #666;
     font-weight: bold;
+}
+
+/* ====== نموذج إضافة الفكرة ====== */
+.form-container {
+    background-color: white;
+    padding: 25px;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+    max-width: 1100px;
+    margin: 0 auto 50px;
+}
+
+.form-control {
+    border-radius: 8px;
+    padding: 12px 15px;
+    border: 1px solid #ddd;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.form-control:focus {
+    border-color: #02d3ac;
+    box-shadow: 0 0 0 0.25rem rgba(2, 211, 172, 0.25);
+}
+
+.form-label {
+    font-weight: 600;
+    color: #005364;
+    margin-bottom: 8px;
 }
 
 .btn-submit {
     background-color: #02d3ac;
     color: white;
     border: none;
-    padding: 10px 20px;
-    border-radius: 5px;
-    text-decoration: none;
+    padding: 12px 30px;
+    border-radius: 8px;
     font-size: 18px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    width: 200px;
 }
 
 .btn-submit:hover {
     background-color: #019f87;
-    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(1, 159, 135, 0.3);
 }
 
-.form-container {
-    background-color: white; 
-    padding: 20px;
-    border-radius: 8px; 
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    max-width: 1100px; 
-    margin: auto; 
-    margin-top: 50px;
+.text-danger {
+    font-size: 14px;
+    margin-top: 5px;
+    display: block;
 }
 
+/* ====== بطاقات الأفكار ====== */
 .idea-card {
     background: #fff;
     border-radius: 12px;
-    padding: 15px;
+    padding: 20px;
     text-align: center;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    overflow: hidden;
-    margin-right: 75px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    transition: all 0.3s ease;
+    margin-bottom: 30px;
+    border: 1px solid #eee;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
 }
 
 .idea-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+    transform: translateY(-8px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+    border-color: #02d3ac;
 }
 
 .idea-img {
     width: 100%;
-    height: 180px;
+    height: 200px;
     object-fit: cover;
-    border-radius: 10px;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    border: 1px solid #eee;
 }
 
 .idea-title {
-    font-size: 18px;
-    font-weight: bold;
+    font-size: 20px;
+    font-weight: 700;
     margin: 10px 0;
-    color: #333;
+    color: #005364;
+    flex-grow: 1;
 }
 
 .idea-author {
-    font-size: 14px;
-    color: #777;
-    margin-bottom: 10px;
+    font-size: 15px;
+    color: #666;
+    margin-bottom: 15px;
 }
 
 .idea-footer {
     display: flex;
     align-items: center;
-    justify-content: center;
-    margin-top: 10px;
+    justify-content: space-between;
+    margin-top: auto;
+    padding-top: 15px;
+    border-top: 1px solid #eee;
 }
 
+/* ====== أزرار التفاعل ====== */
 .like-btn {
     background: none;
     border: none;
-    font-size: 20px;
+    font-size: 22px;
     cursor: pointer;
-    color:  #019f87;
+    color: #e74c3c;
     display: flex;
     align-items: center;
+    transition: all 0.3s ease;
+    padding: 8px 15px;
+    border-radius: 8px;
+}
+
+.like-btn:hover {
+    transform: scale(1.1);
+    color: white;
 }
 
 .like-count {
-    margin-left: 5px;
-    font-size: 18px;
+    margin-right: 8px;
+    font-size: 16px;
     font-weight: bold;
     color: #333;
 }
 
 .eye-btn {
-    background-color: transparent; 
+    background-color: rgba(2, 211, 172, 0.1);
     border: none;
-    font-size: 24px; 
-    color:#019f87; 
-    transition: all 0.3s ease; 
-    cursor: pointer; 
+    font-size: 22px;
+    color: #02d3ac;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    padding: 8px 15px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
 }
 
 .eye-btn:hover {
-    color:#02d3ac; 
-    transform: scale(1.1); 
+    background-color: rgba(2, 211, 172, 0.2);
+    color: #019f87;
+    transform: scale(1.1);
 }
 
-.eye-btn:focus {
-    box-shadow: 0 0 10px #019f87; 
+/* ====== مودال التفاصيل ====== */
+.modal-content {
+    border-radius: 12px;
+    border: none;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+}
+
+.modal-header {
+    border-bottom: 1px solid #eee;
+    padding: 20px;
+}
+
+.modal-title {
+    color: #005364;
+    font-weight: 700;
+    font-size: 22px;
+}
+
+.modal-body {
+    padding: 25px;
+}
+
+.modal-body p {
+    margin-bottom: 15px;
+    line-height: 1.6;
+}
+
+.modal-body strong {
+    color: #005364;
+    font-weight: 600;
+}
+
+.modal-footer {
+    border-top: 1px solid #eee;
+    padding: 15px 20px;
+}
+
+.btn-secondary {
+    background-color: #6c757d;
+    border: none;
+    padding: 8px 20px;
+    border-radius: 8px;
+}
+
+/* ====== رسائل التنبيه ====== */
+.alert {
+    border-radius: 8px;
+    padding: 15px 20px;
+    margin: 20px auto;
+    max-width: 1100px;
+}
+
+.alert-success {
+    background-color: #d4edda;
+    color: #155724;
+    border-color: #c3e6cb;
+}
+
+/* ====== التكيف مع الشاشات الصغيرة ====== */
+@media (max-width: 768px) {
+    .top-links {
+        margin-top: 120px;
+        text-align: center;
+    }
+    
+    .form-container {
+        margin: 0 15px 30px;
+        padding: 20px;
+    }
+    
+    .btn-submit {
+        width: 100%;
+    }
+    
+    .idea-card {
+        margin-bottom: 20px;
+    }
+    
+    .modal-dialog {
+        margin: 10px;
+    }
+}
+
+/* ====== تأثيرات الحركة ====== */
+.animate__animated {
+    animation-duration: 0.5s;
+}
+
+/* نتوفيكيشن */
+.custom-alert {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    padding: 15px;
+    text-align: center;
+    background-color: #28a745;
+    color: white;
+    
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
 }

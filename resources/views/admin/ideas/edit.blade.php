@@ -53,17 +53,14 @@
             @enderror
         </div>
 
-        <!-- صورة الفكرة -->
-        <div class="mb-3">
-            <label for="image" class="form-label">صورة الفكرة</label>
-            <input type="file" name="image" id="image" class="form-control">
-            @if ($idea->image)
-                <img src="{{ asset('storage/' . $idea->image) }}" class="img-thumbnail mt-2" width="200">
-            @endif
-            @error('image')
-                <div class="text-danger">{{ $message }}</div>
-            @enderror
-        </div>
+     
+                     <!-- صورة الفكرة -->
+                     @if($idea->image)
+                     <img src="{{ asset('storage/' . $idea->image) }}" alt="صورة الفكرة">
+                 @else
+                     <img src="https://via.placeholder.com/300" alt="صورة افتراضية">
+                 @endif
+
     
        
         <!-- زر الحفظ -->

@@ -2,27 +2,25 @@
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
 
 
-<div id="carouselExampleControls" class="carousel slide" data-ride="carousel" style="height: 610px; overflow: hidden;">
-    <div class="carousel-inner" style="height: 100%;">
-        <div class="carousel-item active">
-            <img class="d-block w-100" src="{{ asset('assets/img/IMG.jpg') }}" alt="First slide" style="c width: 100%; height: 100%;">
+<div id="carouselExampleControls" class="carousel slide" data-ride="carousel" style="overflow: hidden;">
+    <div class="carousel-inner" style="position: relative;">
+        <div class="carousel-item active" style="height: 70vh; min-height: 600px; max-height: 610px;">
+            <img 
+                class="d-block w-100 " 
+                src="{{ asset('assets/img/IMG.jpg') }}" 
+                alt="First slide" 
+                style="width: 100%; height: 100%; object-fit: cover; object-position: center top;">
+            
+            <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.7); z-index: 1;"></div>
+            
+            <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: white; text-align: center; width: 90%; max-width: 1200px; z-index: 2; padding: 15px;">
+                <h1 style="font-size: clamp(1.5rem, 4vw, 2.5rem); line-height: 1.4; text-shadow: 1px 1px 3px rgba(0,0,0,0.8);">مرحبًا بك في منصة معًا</h1>
+                <h1 style="font-size: clamp(1.5rem, 4vw, 2.5rem); line-height: 1.4; text-shadow: 1px 1px 3px rgba(0,0,0,0.8);">هنا تبدأ رحلتك في العمل التطوعي وصناعة التغيير</h1>
+            </div>
         </div>
-        <div class="carousel-item">
-            <img class="d-block w-100" src="{{ asset('assets/img/موضوع_عن_العمل_التطوعي1.jpg') }}" alt="Second slide" style="object-fit: cover; width: 100%; height: 100%;">
-        </div>
-        {{-- <div class="carousel-item">
-            <img class="d-block w-100" src="{{ asset('assets/img/index3.jpg') }}" alt="Third slide" style="object-fit: cover; width: 100%; height: 100%;">
-        </div> --}}
     </div>
-    <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
-        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-        <span class="sr-only">Previous</span>
-    </a>
-    <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
-        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-        <span class="sr-only">Next</span>
-    </a>
 </div>
+
 
 <div class="container mt-5 py-5">
     <div class="text-center mb-5"> 
@@ -49,7 +47,7 @@
         </div>
 
         <div class="col-md-6">
-            <img src="{{ asset('assets/img/jordan3.png') }}" alt="Project Image" class="img-fluid">
+            <img src="{{ asset('assets/img/jordan4.png') }}" alt="Project Image" class="img-fluid">
         </div>
         
     </div>

@@ -1,12 +1,26 @@
 @include('component.header')
 <link rel="stylesheet" href="{{ asset('assets/css/بنك الافكار.css') }}">
-
 <div class="top-links">
     <a href="{{ route('index') }}">الصفحة الرئيسية</a>
     <a href="#">/ </a>
     <a href="#">بنك الأفكار</a>
 </div>
+<!-- Notification at the top of the page -->
+@if(session('success'))
+    <div class="alert alert-success alert-dismissible fade show sticky-top text-center mb-0" id="success-alert" style="z-index: 9999;">
+        {{ session('success') }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
 
+    <script>
+        setTimeout(function () {
+            let alert = document.getElementById('success-alert');
+            if(alert){
+                alert.style.display = 'none';
+            }
+        }, 8000); 
+    </script>
+@endif
 <div class="form-container p-4">
     <div class="container">
         <form action="{{ route('ideas.store') }}" method="POST" enctype="multipart/form-data">
@@ -112,20 +126,3 @@
         </form>
     </div>
 </div>
-
-
-@if(session('success'))
-    <div class="alert alert-success text-center mt-3" id="success-alert">
-        {{ session('success') }}
-    </div>
-
-    <script>
-        setTimeout(function () {
-            let alert = document.getElementById('success-alert');
-            if(alert){
-                alert.style.display = 'none';
-            }
-        }, 8000); 
-    </script>
-@endif
-
