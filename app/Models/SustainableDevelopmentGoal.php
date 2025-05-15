@@ -22,4 +22,14 @@ class SustainableDevelopmentGoal extends Model
     {
         return $this->belongsTo(Organization::class);
     }
+
+    public function images()
+{
+    return $this->hasMany(SdgImage::class);
+}
+
+public function opportunities()
+{
+    return $this->hasMany(VolunteerOpportunity::class, 'goal_id');
+}
 }

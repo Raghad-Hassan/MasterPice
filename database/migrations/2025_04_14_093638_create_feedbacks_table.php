@@ -14,9 +14,9 @@ return new class extends Migration
        
         Schema::create('feedbacks', function (Blueprint $table) {
             $table->id();
-            $table->text('message'); // محتوى الرسالة أو الرأي
-            $table->foreignId('user_id')->nullable()->constrained(); // ربط الرسالة بالمستخدم (اختياري)
-            $table->timestamps(); // هذا يضيف عمودي created_at و updated_at تلقائيًا
+            $table->text('message'); 
+            $table->foreignId('user_id')->nullable()->constrained(); 
+            $table->timestamps(); 
         });
         
     }

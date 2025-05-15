@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Organization;
 
+use App\Models\SustainableDevelopmentGoal;
+use App\Models\OpportunityApplication;
 use App\Http\Controllers\Controller;
 use App\Models\VolunteerOpportunity;
 use App\Models\Opportunity;
@@ -10,22 +12,23 @@ use Illuminate\Http\Request;
 
 class UserOpportunityController extends Controller
 {
-    // عرض كل الفرص
+    
     public function index()
     {
         $opportunities = VolunteerOpportunity::paginate(6);
         return view('user.عرض الفرص', compact('opportunities'));
     }
 
-    // عرض تفاصيل فرصة وحدة
+    
     public function show($id)
-    {
-        // $opportunity = VolunteerOpportunity::findOrFail($id);
-        $organization = Organization::with('volunteerOpportunities')->findOrFail($id);
-        $opportunity = VolunteerOpportunity::where('id', $id)->first();
-        // dd($opportunity->id);
-        return view('user.opportunit-details', compact('opportunity'));
-    }
+{
+    $opportunity = VolunteerOpportunity::findOrFail($id);
+
+   
+    $goals = SustainableDevelopmentGoal::where('organization_id', $opportunity->organization_id)->get();
+
+    return view('user.opportunit-details', compact('opportunity', 'goals'));
+}
 
 
     public function register(Request $request) {
@@ -59,7 +62,7 @@ class UserOpportunityController extends Controller
             $opportunity = VolunteerOpportunity::findOrFail($id);
             \Log::debug('Opportunity found', ['opportunity' => $opportunity]);
     
-            // التحقق من السعة
+            
             if ($opportunity->current_volunteers >= $opportunity->total_volunteers) {
                 \Log::warning('Opportunity full', ['opportunity_id' => $id]);
                 return response()->json(['error' => 'لا يوجد أماكن متاحة'], 400);
@@ -101,4 +104,54 @@ class UserOpportunityController extends Controller
             return response()->json(['error' => 'حدث خطأ: ' . $e->getMessage()], 500);
         }
     }
+
+    public function registerOpportunity(Request $request)
+    {
+       
+        if (!auth()->check()) {
+            return redirect()->route('login')->withErrors('يرجى تسجيل الدخول أولاً');
+        }
+    
+        try {
+           
+            $opportunity = VolunteerOpportunity::findOrFail($request->opportunity_id);
+    
+           
+            $existing = OpportunityApplication::where([
+                'user_id' => auth()->id(),
+                'opportunity_id' => $opportunity->id
+            ])->exists();
+    
+            if ($existing) {
+                return redirect()->back()->withErrors('مسجل مسبقاً في هذه الفرصة');
+            }
+    
+            OpportunityApplication::create([
+                'user_id' => auth()->id(),
+                'opportunity_id' => $opportunity->id, 
+                'status' => 'pending',
+            ]);
+    
+          
+            $opportunity->increment('current_volunteers');
+    
+            return redirect()->back()->with('success', 'تم التسجيل بنجاح');
+    
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+            return redirect()->back()->withErrors('الفرصة التطوعية غير موجودة');
+            
+        } catch (\Illuminate\Database\QueryException $e) {
+            return redirect()->back()->withErrors('حدث خطأ في قاعدة البيانات: ' . $e->getMessage());
+            
+        } catch (\Exception $e) {
+            return redirect()->back()->withErrors('حدث خطأ غير متوقع: ' . $e->getMessage());
+        }
+    }
+
+    public function showGoals()
+{
+    $goals = SustainableDevelopmentGoal::with('organization')->get(); 
+    return view('user.opportunit-details', compact('goals'));
+}
+    
 }

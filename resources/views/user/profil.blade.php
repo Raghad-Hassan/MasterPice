@@ -42,13 +42,7 @@
         <p class="bio-text">{{ Auth::user()->bio ?? 'نبذة غير متوفرة' }}</p>
     </div>
     
-    <!-- المهارات -->
-        {{-- <div class="skills-list">
-            @foreach($skills as $skill)
-                <span class="skill-badge">{{ $skill->name }}</span>
-            @endforeach
-        </div>
-    </div> --}}
+
     
 
     <!-- النشاطات التطوعية -->
@@ -59,14 +53,16 @@
         </h2>
         
         <div class="stats-container">
-            <div class="stat-card">
-                <div class="stat-number">{{ $volunteerHours }}</div>
-                <div class="stat-label">ساعة تطوع</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-number">{{ $completedProjects }}</div>
-                <div class="stat-label">مشاريع شاركت بها</div>
-            </div>
+          <div class="stat-card">
+            <div class="stat-number">{{ $volunteerHours }}</div>
+            <div class="stat-label">ساعة تطوع</div>
+        </div>
+
+           <div class="stat-card">
+            <div class="stat-number">{{ $completedProjects }}</div>
+            <div class="stat-label">مشاريع شاركت بها</div>
+        </div>
+        
             <div class="stat-card">
                 <div class="stat-number">{{ $completedProjects }}</div>
                 <div class="stat-label">جمعيات تعاونت معها</div>
@@ -102,26 +98,36 @@
     
     
     <!-- شهادات التطوع -->
-    <div class="profile-section">
-        <h2 class="section-title">
-            <i class="fas fa-award" style="margin-left: 10px;"></i>
-            شهادات التطوع
-        </h2>
-        <div class="certificates-container">
-            {{-- @foreach($certificates as $certificate)
-                <div class="certificate-card">
-                    <img src="{{ $certificate->image_url }}" alt="شهادة التطوع" class="certificate-image">
-                    <div class="certificate-info">
-                        <h3 class="certificate-title">{{ $certificate->title }}</h3>
-                        <p>{{ $certificate->organization }} - {{ $certificate->year }}</p>
-                        <a href="{{ $certificate->download_link }}" class="download-btn">
-                            <i class="fas fa-download"></i> تنزيل
-                        </a>
-                    </div>
+<div class="profile-section">
+    <h2 class="section-title">
+        <i class="fas fa-award" style="margin-left: 10px;"></i>
+        شهادات التطوع
+    </h2>
+
+    <div class="certificates-grid">
+        @forelse($certificates as $certificate)
+            <div class="certificate-card">
+                <img src="{{ asset('storage/' . $certificate->image_path) }}" alt="شهادة التطوع" class="certificate-image">
+                <div class="certificate-info">
+                    <h3 class="certificate-title">{{ $certificate->title }}</h3>
+                    <p class="certificate-org">
+                        {{ $certificate->organization }}<br>
+                        <span class="certificate-date">
+                            {{ \Carbon\Carbon::parse($certificate->issue_date)->format('Y-m-d') }}
+                        </span>
+                    </p>
+                    <a href="{{ asset('storage/' . $certificate->image_path) }}" download class="download-btn">
+                        <i class="fas fa-download"></i> تنزيل الشهادة
+                    </a>
                 </div>
-            @endforeach --}}
-        </div>
+            </div>
+        @empty
+            <p>لا توجد شهادات حالياً.</p>
+        @endforelse
     </div>
+</div>
+
+
 </div>
 
 @include('component.footer')

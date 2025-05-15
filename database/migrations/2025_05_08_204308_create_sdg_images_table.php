@@ -11,20 +11,19 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('participants', function (Blueprint $table) {
+        Schema::create('sdg_images', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained(); 
-            $table->foreignId('opportunity_id')->constrained('volunteer_opportunities'); 
+            $table->foreignId('sustainable_development_goal_id')->constrained()->onDelete('cascade'); // ربط الصورة بالهدف
+            $table->string('image');
             $table->timestamps();
         });
-        
     }
-
+    
     /**
      * Reverse the migrations.
      */
     public function down(): void
     {
-        Schema::dropIfExists('participants');
+        Schema::dropIfExists('sdg_images');
     }
 };

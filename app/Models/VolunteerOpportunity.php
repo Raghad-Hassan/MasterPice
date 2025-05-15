@@ -51,11 +51,10 @@ class VolunteerOpportunity extends Model
                     ->withTimestamps();
     }
 
-    public function goals()
-    {
-        return $this->belongsToMany(SustainableDevelopmentGoal::class, 'opportunity_goals');
-    }
-
+    public function goal()
+{
+    return $this->belongsTo(SustainableDevelopmentGoal::class, 'goal_id');
+}
     // دالة مساعدة للحصول على لون التصنيف
     public function getCategoryColorAttribute()
     {
@@ -77,4 +76,16 @@ class VolunteerOpportunity extends Model
                 ->withTimestamps()
                 ->withPivot('status');
 }
+
+public function opportunityApplications()
+{
+    return $this->hasMany(OpportunityApplication::class);
+}
+
+
+public function applicants()
+{
+    return $this->hasMany(OpportunityApplication::class, 'opportunity_id');
+}
+
 }

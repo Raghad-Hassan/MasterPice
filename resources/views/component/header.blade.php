@@ -431,6 +431,7 @@ body {
 </head>
 
 <body>
+    
     <nav class="navbar navbar-expand-lg navbar-light fixed-top">
         <div class="container-fluid">
             <a class="navbar-brand d-flex align-items-center" href="{{ url('/') }}">

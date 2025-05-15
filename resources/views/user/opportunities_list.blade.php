@@ -12,11 +12,12 @@
                     data-organization="{{ $opportunity->organization_type }}"
                     data-location="{{ $opportunity->city }}"
                     data-hours="{{ $opportunity->volunteer_hours }}">
-                        {{-- @if($opportunity->image)
-                            <img src="{{ asset('storage/' . $opportunity->image) }}" alt="صورة الفرصة" class="opportunity-img">
-                        @else
-                            <img src="{{ asset('images/default-opportunity.jpg') }}" alt="صورة افتراضية" class="opportunity-img">
-                        @endif --}}
+                    @if($opportunity->image)
+                    <img src="{{ asset('images/' . $opportunity->image) }}" alt="صورة الفرصة" width="200">
+                @else
+                    <img src="{{ asset('images/default-opportunity.jpg') }}" alt="صورة افتراضية" width="200">
+                @endif
+                
                         <div class="opportunity-details">
                             <div class="d-flex align-items-center mb-2">
                                 <i class="fas fa-{{ $icons[$opportunity->category] ?? 'th-large' }} me-2"></i>
@@ -49,7 +50,10 @@
                             @if($opportunity->status === 'available')
                                 {{-- <form action="{{ route('opportunity.register', $opportunity->id) }}" method="POST" style="display: inline;">
                                     @csrf --}}
-                                    <button class="register-btn" data-user-id='{{ Auth::id() }}' data-opp-id='{{ $opportunity->id }}' onclick='register({{ $opportunity->id }} , {{ Auth::id() }} )'>سجل الآن</button>
+                                   <a href="{{ route('opportunity.details', $opportunity->id) }}" class="register-btn more-info-btn">
+                                        تعرف أكثر
+                                    </a>
+                                    
                                 {{-- </form> --}}
                             @else
                                 <button class="register-btn btn-secondary" disabled>مكتمل</button>

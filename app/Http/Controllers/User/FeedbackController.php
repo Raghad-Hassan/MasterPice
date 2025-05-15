@@ -20,27 +20,28 @@ class FeedbackController extends Controller
         if (!Auth::check()) {
             return redirect()->route('login')->with('error', 'يجب تسجيل الدخول أولاً لإرسال الفيدباك.');
         }
-    
-        $validator = Validator::make($request->all(), [
-            'message' => ['required', 'string', 'max:1000', function ($attribute, $value, $fail) {
-                if (trim($value) === '') {
-                    $fail('الرسالة لا يمكن أن تكون فارغة أو تحتوي فقط على مسافات.');
-                }
-            }],
+
+        // أولاً نعمل trim للرسالة
+        $message = trim($request->input('message'));
+
+        // ثم نعمل فاليديشن بعد الـ trim
+        $validator = Validator::make(['message' => $message], [
+            'message' => 'required|string|min:3|max:1000',
         ], [
             'message.required' => 'الرسالة مطلوبة.',
+            'message.min' => 'الرسالة يجب أن تحتوي على 3 أحرف على الأقل.',
             'message.max' => 'الرسالة لا يجب أن تتجاوز 1000 حرف.',
         ]);
-    
+
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();
         }
-    
-        $feedback = new Feedback();
-        $feedback->message = $request->message;
-        $feedback->user_id = Auth::id();
-        $feedback->save();
-    
+
+        Feedback::create([
+            'user_id' => Auth::id(),
+            'message' => $message,
+        ]);
+
         return redirect()->back()->with('success', 'تم إرسال الفيدباك بنجاح!');
     }
 }

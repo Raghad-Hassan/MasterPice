@@ -298,6 +298,28 @@ body {
     max-width: 80%;
 }
 
+.more-info-btn {
+    background-color: #007bff; /* أزرق أنيق */
+    color: #fff;
+    padding: 10px 20px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: 0.3s ease;
+    display: inline-block;
+    text-align: center;
+    font-size: 18px;
+}
+
+.more-info-btn:hover {
+    background-color: #0056b3;
+    color: #fff;
+    text-decoration: none;
+    transform: scale(1.05);
+    
+}
+
+
 /* التكيف مع الشاشات الصغيرة */
 @media (max-width: 768px) {
     .volunteer-browser {

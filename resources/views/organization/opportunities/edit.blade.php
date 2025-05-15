@@ -1,10 +1,134 @@
 @extends('organization.layouts.app')
 
 @section('content')
-<div class="container py-4">
-    <div class="d-flex justify-content-between align-items-center mb-4">
-        <h1 class="h3">{{ isset($opportunity) ? 'تعديل الفرصة' : 'إضافة فرصة جديدة' }}</h1>
-        <a href="{{ route('organization.opportunities.index') }}" class="btn btn-outline-secondary">
+<style>
+    .form-container {
+        margin-right: 20px;
+        padding: 30px;
+        background-color: #f8fafc;
+        min-height: 100vh;
+    }
+    
+    .page-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 30px;
+        padding-bottom: 20px;
+        border-bottom: 1px solid #eaeaea;
+    }
+    
+    .page-title {
+        color: #005364;
+        font-weight: 700;
+        margin: 0;
+    }
+    
+    .back-btn {
+        background-color: white;
+        color: #005364;
+        border: 1px solid #019f87;
+        border-radius: 8px;
+        padding: 8px 15px;
+        font-weight: 600;
+        transition: all 0.3s ease;
+    }
+    
+    .back-btn:hover {
+        background-color: #f0f0f0;
+        transform: translateX(-3px);
+    }
+    
+    .card {
+        border: none;
+        border-radius: 10px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        margin-bottom: 25px;
+    }
+    
+    .card-header {
+        background: linear-gradient(135deg, #019f87, #005364);
+        color: white;
+        font-weight: 600;
+        padding: 15px 20px;
+        border-radius: 10px 10px 0 0 !important;
+    }
+    
+    .card-body {
+        padding: 20px;
+    }
+    
+    .form-label {
+        font-weight: 600;
+        color: #005364;
+        margin-bottom: 8px;
+    }
+    
+    .form-control, .form-select {
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        padding: 10px 15px;
+        transition: all 0.3s ease;
+    }
+    
+    .form-control:focus, .form-select:focus {
+        border-color: #019f87;
+        box-shadow: 0 0 0 0.25rem rgba(1, 159, 135, 0.25);
+    }
+    
+    .img-thumbnail {
+        border-radius: 8px;
+        border: 1px solid #ddd;
+        padding: 5px;
+        transition: all 0.3s ease;
+    }
+    
+    .img-thumbnail:hover {
+        transform: scale(1.05);
+    }
+    
+    .submit-btn {
+        background: linear-gradient(135deg, #019f87, #005364);
+        border: none;
+        border-radius: 8px;
+        padding: 12px 25px;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        width: 100%;
+    }
+    
+    .submit-btn:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 5px 15px rgba(1, 159, 135, 0.3);
+    }
+    
+    .form-check-input:checked {
+        background-color: #019f87;
+        border-color: #019f87;
+    }
+    
+    @media (max-width: 768px) {
+        .form-container {
+            margin-right: 0;
+            padding: 20px;
+        }
+        
+        .page-header {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 15px;
+        }
+        
+        .back-btn {
+            width: 100%;
+        }
+    }
+</style>
+
+<div class="form-container">
+    <div class="page-header">
+        <h1 class="page-title">{{ isset($opportunity) ? 'تعديل الفرصة' : 'إضافة فرصة جديدة' }}</h1>
+        <a href="{{ route('organization.opportunities.index') }}" class="btn back-btn">
             <i class="fas fa-arrow-right"></i> العودة للقائمة
         </a>
     </div>
@@ -56,8 +180,6 @@
                         </div>
                     </div>
                 </div>
-
-                
             </div>
 
             <div class="col-md-4">
@@ -136,7 +258,7 @@
                 </div>
 
                 <div class="d-grid">
-                    <button type="submit" class="btn btn-primary">
+                    <button type="submit" class="btn submit-btn">
                         <i class="fas fa-save"></i> {{ isset($opportunity) ? 'تحديث' : 'حفظ' }}
                     </button>
                 </div>

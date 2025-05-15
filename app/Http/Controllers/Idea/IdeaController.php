@@ -111,7 +111,9 @@ class IdeaController extends Controller
 
     public function index()
     {
-        $ideas = Idea::with('user')->where('status', 'approved')->get();
+        $ideas = Idea::with('user')->where('status', 'approved')
+        ->where('status', '!=', 'hidden_from_institution')
+        ->get();
         return view('ideas.index', compact('ideas'));
     }
 

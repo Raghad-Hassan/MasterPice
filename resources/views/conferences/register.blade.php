@@ -49,9 +49,9 @@
             </div>
 
             <div class="mb-3">
-                <label class="form-label">المدينة / الدولة:</label>
+                <label class="form-label">المحافظة:</label>
                 <select name="city" class="form-control" required>
-                    <option value="" selected disabled>اختر المدينة / الدولة</option>
+                    <option value="" selected disabled>لمحافظة</option>
                     <option value="amman">عمان</option>
                     <option value="irbid">إربد</option>
                     <option value="zarqa">الزرقاء</option>
@@ -120,12 +120,14 @@
                 @enderror
             </div>
 
-            <form action="{{ route('conferences.register.submit', $conference->id) }}" method="POST">
-                @csrf
-                
-                <button type="submit" class="btn btn-primary">تسجيل</button>
-            </form>
-
+            @auth
+    <form action="{{ route('conferences.register.submit', $conference->id) }}" method="POST">
+        @csrf
+        <button type="submit" class="btn btn-primary">تسجيل</button>
+    </form>
+@else
+    <a href="{{ route('login') }}" class="btn btn-primary">تسجيل</a>
+@endauth
             @if ($errors->any())
                 <div class="alert alert-danger mt-3">
                     <ul>

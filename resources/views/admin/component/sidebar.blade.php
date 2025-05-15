@@ -33,40 +33,40 @@
             </a>
         </li>
         
-        <li class="{{ request()->is('admin/statistics*') ? 'active' : '' }}">
-            <i class="fas fa-chart-line"></i>
-            <span><a href="{{ route('admin.statistics') }}"class="nav-link">عرض المشاركين في المؤتمر السنوي</a></span>
-        </li>
-        
-        <li class="{{ request()->is('admin/ideas*') ? 'active' : '' }}">
-            <i class="fas fa-chart-line"></i>
-            <span><a href="{{ route('admin.ideas.index') }}"class="nav-link"> بنك الافكار</span>
-        </li>
+      <li class="{{ request()->is('admin/statistics*') ? 'active' : '' }}">
+    <a href="{{ route('admin.statistics') }}" class="nav-link">
+        <i class="fas fa-chart-line"></i>
+        <span>عرض المشاركين في المؤتمر السنوي</span>
+    </a>
+</li>
 
-        <li class="{{ request()->is('admin/ideas/approved') ? 'active' : '' }}">
-            <i class="fas fa-check-circle"></i>
-            <span>
-                <a href="{{ route('admin.ideas.approved') }}" class="nav-link">الأفكار الموافق عليها</a>
-            </span>
-        </li>
-        
-        <li class="{{ request()->is('admin/feedbacks*') ? 'active' : '' }}">
-            <i class="fas fa-comments"></i>
-            <span><a href="{{ route('admin.feedbacks.index') }}" class="nav-link">آراء المستخدمين</a></span>
-        </li>
+<li class="{{ request()->is('admin/ideas*') ? 'active' : '' }}">
+    <a href="{{ route('admin.ideas.index') }}" class="nav-link">
+        <i class="fas fa-lightbulb"></i> <!-- تغيير الأيقونة لتمثيل الأفكار -->
+        <span>بنك الأفكار</span>
+    </a>
+</li>
 
-        <li class="{{ request()->is('admin/newsletter*') ? 'active' : '' }}">
-            <i class="fas fa-envelope"></i>
-            <span>
-                <a href="{{ route('admin.newsletter.index') }}" class="nav-link">النشرة البريدية</a>
-            </span>
-        </li>
+<li class="{{ request()->is('admin/ideas/approved') ? 'active' : '' }}">
+    <a href="{{ route('admin.ideas.approved') }}" class="nav-link">
+        <i class="fas fa-check-circle"></i>
+        <span>الأفكار الموافق عليها</span>
+    </a>
+</li>
 
+<li class="{{ request()->is('admin/feedbacks*') ? 'active' : '' }}">
+    <a href="{{ route('admin.feedbacks.index') }}" class="nav-link">
+        <i class="fas fa-comments"></i>
+        <span>آراء المستخدمين</span>
+    </a>
+</li>
 
-        <li class="{{ request()->is('admin/settings*') ? 'active' : '' }}">
-            <i class="fas fa-cog"></i>
-            <span>الإعدادات</span>
-        </li>
+<li class="{{ request()->is('admin/newsletter*') ? 'active' : '' }}">
+    <a href="{{ route('admin.newsletter.index') }}" class="nav-link">
+        <i class="fas fa-envelope"></i>
+        <span>النشرة البريدية</span>
+    </a>
+</li>
 
         <!-- زر تسجيل الخروج -->
         <li>

@@ -91,13 +91,12 @@ class OpportunityController extends Controller
             $opportunity->total_hours = $validated['total_hours'];
             
             if ($request->hasFile('image')) {
-                $imagePath = $request->file('image')->store('opportunity_images', 'public');
-                $opportunity->image = $imagePath; 
+                $image = $request->file('image');
+                $imageName = time() . '.' . $image->getClientOriginalExtension();
+                $image->move(public_path('images'), $imageName);
+            
+                $opportunity->image = $imageName;
             }
-           
-            Log::info('بيانات الفرصة قبل الحفظ:', $opportunity->toArray());
-        
-           
             $opportunity->save();
         
            

@@ -24,11 +24,15 @@ use App\Http\Controllers\OrganizationController;
 use App\Http\Controllers\Organization\OpportunityController;
 use App\Http\Controllers\Admin\OrganizationController as AdminOrganizationController;
 use App\Http\Controllers\Organization\UserOpportunityController;
-use App\Http\Controllers\VolunteerOpportunityController;
+use App\Http\Controllers\Organization\VolunteerOpportunityController;
 use App\Http\Controllers\Idea\IdeaController;
 use App\Http\Controllers\Organization\OpportunityCommentController;
 use App\Http\Controllers\Organization\OpportunityReservationController;
-
+use App\Http\Controllers\Organization\ApprovedIdeasController;
+use App\Http\Controllers\Organization\CertificateController;
+use App\Http\Controllers\Organization\GoalController;
+use App\Http\Controllers\Organization\SdgImageController;
+use App\Http\Controllers\Organization\OrganizationProfileController;
 
 /*
 |--------------------------------------------------------------------------
@@ -115,7 +119,8 @@ Route::prefix('conferences')->group(function () {
     Route::get('/{conference}/register', [ConferenceController::class, 'showRegistrationForm'])
          ->name('conferences.register.form');
     Route::post('/{conference}/register', [ConferenceController::class, 'register'])
-         ->name('conferences.register.submit');
+         ->name('conferences.register.submit')
+          ->middleware('auth');
 });
 
 // Idea Routes
@@ -253,9 +258,13 @@ Route::prefix('organization')->name('organization.')->group(function () {
 Route::get('/opportunities/create', [OpportunityController::class, 'create'])
      ->name('organization.opportunities.create');
 
-// معالجة بيانات النموذج
+
 Route::post('/opportunities', [OpportunityController::class, 'store'])
      ->name('organization.opportunities.store');
+
+
+Route::put('/volunteer_opportunities/{id}', [VolunteerOpportunityController::class, 'update'])->name('volunteer_opportunities.update');
+
 
 Route::prefix('dashboard')->name('dashboard.')->group(function () {
     Route::resource('volunteer-opportunities', OpportunityController::class);
@@ -272,9 +281,25 @@ Route::get('/volunteer/opportunities/filter', [FilterController::class, 'filterO
 
  Route::post('/opportunity/register', [UserOpportunityController::class, 'register'])->name('opportunity.register');
 
- Route::get('/organization/dashboard', [OrganizationController::class, 'dashboard'])->name('organization.dashboard');
+ // استخدم هذا إذا كنت تريد استخدام DashboardController
+Route::prefix('organization')->group(function() {
+    Route::get('/dashboard', [\App\Http\Controllers\Organization\DashboardController::class, 'index'])
+         ->name('organization.dashboard');
+         
+    Route::get('/dashboard/{id}', [\App\Http\Controllers\Organization\DashboardController::class, 'show'])
+         ->name('organization.dashboard.show');
+});
 
- Route::post('/opportunity-comments', [OpportunityCommentController::class, 'store'])->name('opportunity-comments.store');
+
+
+ // Comments routes
+Route::prefix('organization')->group(function () {
+    Route::post('/opportunity-comments', [OpportunityCommentController::class, 'store'])
+        ->name('opportunity-comments.store');
+
+    Route::get('/opportunity-comments/{opportunityId}', [OpportunityCommentController::class, 'index'])
+        ->name('opportunity-comments.index');
+});
 
 
 
@@ -290,9 +315,8 @@ Route::post('organization/application/reject/{applicationId}', [OrganizationDash
 
 
 // comment
-Route::prefix('organization')->name('organization.')->middleware('auth')->group(function () {
-    // Route::get('/comments', [OpportunityCommentController::class, 'index'])->name('comments.index');
-});
+
+
 
 // user dashbord
 
@@ -300,4 +324,30 @@ Route::prefix('organization')->name('organization.')->middleware('auth')->group(
 
 
 Route::post('/organization/logout', [OrganizationController::class, 'logout'])->name('organization.logout');
+
+Route::post('/register-opportunity', [UserOpportunityController::class, 'registerOpportunity'])->name('user.registerOpportunity');
+
+
+// ApprovedIdeas
+Route::get('/institution/approved-ideas', [ApprovedIdeasController::class, 'index'])->name('institution.approvedIdeas');
+Route::get('/organization/approved-ideas/{id}', [ApprovedIdeasController::class, 'show'])->name('organization.approved-ideas.show');
+
+// dashbord user
+Route::get('/dashboard/opportunities/{id}', [VolunteerOpportunityController::class, 'show'])
+     ->name('organization.opportunities.show');
+
+Route::get('opportunities/{opportunity}/applicants', [VolunteerOpportunityController::class, 'showApplicants'])->name('organization.opportunities.showApplicants');
+
+Route::delete('opportunities/{opportunity}/remove-applicant/{application}', [OpportunityController::class, 'removeApplicant'])->name('organization.opportunities.removeApplicant');
+
+Route::get('/organization/certificates/create', [CertificateController::class, 'create'])->name('organization.certificates.create');
+
+Route::post('/organization/certificates', [CertificateController::class, 'store'])->name('organization.certificates.store');
+
+//  sidebar
+ Route::get('/dashboard/opportunities', [VolunteerOpportunityController::class, 'index'])
+ ->name('organization.opportunities.index');
+
+
+
 

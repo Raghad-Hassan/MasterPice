@@ -53,16 +53,14 @@
             @enderror
         </div>
 
-     
-                     <!-- صورة الفكرة -->
-                     @if($idea->image)
-                     <img src="{{ asset('storage/' . $idea->image) }}" alt="صورة الفكرة">
-                 @else
-                     <img src="https://via.placeholder.com/300" alt="صورة افتراضية">
-                 @endif
-
-    
-       
+        <div class="mb-3">
+            <label for="image" class="form-label">تحديث صورة الفكرة</label>
+            <input type="file" name="image" id="image" class="form-control">
+            @error('image')
+                <div class="text-danger">{{ $message }}</div>
+            @enderror
+        </div>
+        
         <!-- زر الحفظ -->
         <div class="text-center">
             <button type="submit" class="btn btn-primary">حفظ التعديلات</button>

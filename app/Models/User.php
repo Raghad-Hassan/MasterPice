@@ -125,4 +125,9 @@ public function volunteerOpportunities()
                 ->withPivot('status');
 }
 
+
+public function volunteerActivities()
+{
+    return $this->hasMany(VolunteerActivity::class);
+}
 }

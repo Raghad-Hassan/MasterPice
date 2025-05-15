@@ -24,4 +24,9 @@ class OpportunityApplication extends Model
     {
         return $this->belongsTo(VolunteerOpportunity::class, 'opportunity_id');
     }
+
+    public function volunteeringOpportunity()
+    {
+        return $this->belongsTo(VolunteeringOpportunity::class, 'opportunity_id'); // ربط الفرصة التطوعية
+    }
 }

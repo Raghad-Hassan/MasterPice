@@ -10,26 +10,37 @@ use Illuminate\Support\Facades\Storage;
 class ProfileController extends Controller
 {
    
-    public function showProfile()
-    {
-        $user = auth()->user();
+  public function showProfile()
+{
+    $user = auth()->user();
 
-        
-        $volunteerHours = $user->volunteeringHours()->sum('hours');
-        $completedProjects = $user->projects()->count();
-        $certificatesCount = $user->certificates()->count();
+    // حساب إجمالي الساعات التطوعية
+    $volunteerHours = $user->opportunityApplications()
+                           ->with('opportunity') // جلب معلومات الفرصة المرتبطة
+                           ->get()
+                           ->sum(function ($application) {
+                               return $application->opportunity->volunteer_hours; // جمع الساعات من الفرصة
+                           });
 
-        // احضار آخر الفرص التطوعية اللي سجل فيها اليوزر
-        $userId = auth()->id();
+    // حساب عدد المشاريع التي شارك فيها اليوزر
+    $completedProjects = $user->opportunityApplications()->count();
 
-        $recentActivities = OpportunityApplication::where('user_id', $userId)
-            ->with('opportunity') // نجيب معلومات الفرصة المرتبطة
-            ->latest()
-            ->take(5)
-            ->get();
+    // الحصول على عدد الشهادات
+    $certificatesCount = $user->certificates()->count();
+    $certificates = $user->certificates()->get();
 
-        return view('user.profil', compact('user', 'volunteerHours', 'completedProjects', 'certificatesCount', 'recentActivities'));
-    }
+    // الحصول على آخر الفرص التطوعية التي سجل فيها اليوزر
+    $userId = auth()->id();
+    $recentActivities = OpportunityApplication::where('user_id', $userId)
+        ->with('opportunity') // تحميل بيانات الفرصة المرتبطة
+        ->latest()
+        ->take(5)
+        ->get();
+
+    return view('user.profil', compact('user', 'volunteerHours', 'completedProjects', 'certificatesCount', 'recentActivities', 'certificates'));
+}
+
+
 
     // عرض نموذج تعديل البروفايل
     public function edit()
@@ -104,4 +115,8 @@ class ProfileController extends Controller
 
     return redirect()->back()->with('success', 'تم تحديث صورة البروفايل.');
 }
+
+
+
+
 }

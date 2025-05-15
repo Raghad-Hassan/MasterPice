@@ -14,14 +14,14 @@ return new class extends Migration
         Schema::create('organization_activity_logs', function (Blueprint $table) {
             $table->id();
             $table->foreignId('organization_id')->constrained()->onDelete('cascade');
-            $table->foreignId('user_id')->constrained(); // المستخدم الذي قام بالإجراء
-            $table->string('action'); // نوع الإجراء (مثل create, update, delete)
-            $table->string('model_type'); // نوع الكائن المتأثر (مثل Opportunity, Application)
-            $table->unsignedBigInteger('model_id')->nullable(); // المعرف الخاص بالكائن المتأثر
-            $table->json('old_data')->nullable(); // البيانات القديمة (قبل التعديل)
-            $table->json('new_data')->nullable(); // البيانات الجديدة (بعد التعديل)
-            $table->ipAddress('ip_address'); // عنوان الـ IP الخاص بالمستخدم
-            $table->string('user_agent')->nullable(); // وكيل المستخدم (الذي يتضمن متصفح المستخد
+            $table->foreignId('user_id')->constrained(); 
+            $table->string('action'); 
+            $table->string('model_type'); 
+            $table->unsignedBigInteger('model_id')->nullable(); 
+            $table->json('old_data')->nullable(); 
+            $table->json('new_data')->nullable(); 
+            $table->ipAddress('ip_address'); 
+            $table->string('user_agent')->nullable(); 
             $table->timestamps();
         });
     }

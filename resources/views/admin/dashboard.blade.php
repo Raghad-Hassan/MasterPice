@@ -167,24 +167,39 @@
             لا توجد مؤتمرات حالياً
         </div>
     @endif
+
+
+
+    <!-- قسم عرض التعليقات -->
+<div class="card mt-4 shadow-sm p-4 rounded-4 border-0" style="background-color: #f9f9f9;">
+    <div class="d-flex align-items-center mb-4">
+        <i class="fas fa-comments me-3" style="color: #005364; font-size: 1.5rem;"></i>
+        <h3 class="mb-0" style="color: #005364;">أحدث التعليقات</h3>
+    </div>
+
+    @if($feedbacks->count() > 0)
+        <ul class="list-group list-group-flush">
+            @foreach($feedbacks as $feedback)
+                <li class="list-group-item d-flex justify-content-between align-items-start">
+                    <div>
+                       {{ trim(($feedback->user->first_name ?? '') . ' ' . ($feedback->user->last_name ?? '')) ?: 'مستخدم غير معروف' }}
+                        <div class="text-muted">{{ $feedback->created_at->format('Y-m-d H:i') }}</div>
+                        <p class="mb-0 mt-1">{{ $feedback->message }}</p>
+                    </div>
+                </li>
+            @endforeach
+        </ul>
+    @else
+        <div class="alert alert-info">
+            لا توجد تعليقات حالياً.
+        </div>
+    @endif
+</div>
+
 </div>
 
 <!-- ستايل إضافي -->
-<style>
-    .card {
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
-    .card:hover {
-        transform: translateY(-3px);
-        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1) !important;
-    }
-    .border-start {
-        border-left-width: 4px !important;
-    }
-    .card-text {
-        color: #495057;
-    }
-</style>
+
     
     
 @endsection
