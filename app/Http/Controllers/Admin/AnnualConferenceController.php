@@ -32,6 +32,7 @@ class AnnualConferenceController extends Controller
         'activities' => 'required|string',
         'workshops' => 'required|string',
         'image' => 'nullable|image', 
+         'status' => 'required|in:pending,active,done', 
     ]);
 
     
@@ -43,11 +44,6 @@ class AnnualConferenceController extends Controller
    
     return redirect()->route('admin.annual-conferences.index')->with('success', 'تم إضافة المؤتمر بنجاح');
 }
-
-    
-
-
-
     public function edit($id)
     {
         $conference = AnnualConference::findOrFail($id);
@@ -68,17 +64,24 @@ class AnnualConferenceController extends Controller
             'activities' => 'required|string',
             'workshops' => 'required|string',
             'image' => 'nullable|image',
+             'status' => 'required|in:pending,active,done',
         ]);
 
-        $conference->update($request->all());
+        $conference->update($request->except('image'));
 
-        if ($request->hasFile('image')) {
-            $conference->image = $request->file('image')->store('images', 'public');
-        }
+    // حدث حالة المؤتمر بشكل صريح (لو ما كانت موجودة في all())
+    $conference->status = $request->input('status');
 
-        return redirect()->route('admin.annual-conferences.index');
+    // إذا تم رفع صورة، خزّنها
+    if ($request->hasFile('image')) {
+        $conference->image = $request->file('image')->store('images', 'public');
     }
 
+    // احفظ التغييرات (صورة وحالة)
+    $conference->save();
+
+    return redirect()->route('admin.annual-conferences.index')->with('success', 'تم تحديث المؤتمر بنجاح');
+}
     public function destroy($id)
     {
         $conference = AnnualConference::findOrFail($id);

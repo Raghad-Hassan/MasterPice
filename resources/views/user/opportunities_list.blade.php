@@ -20,7 +20,7 @@
                 
                         <div class="opportunity-details">
                             <div class="d-flex align-items-center mb-2">
-                                <i class="fas fa-{{ $icons[$opportunity->category] ?? 'th-large' }} me-2"></i>
+                                {{-- <i class="fas fa-{{ $icons[$opportunity->category] ?? 'th-large' }} me-2"></i> --}}
                                 <h5 class="opportunity-title mb-0">{{ $opportunity->title }}</h5>
                             </div>
                             <p class="opportunity-description">{{ \Illuminate\Support\Str::limit($opportunity->description, 100) }}</p>

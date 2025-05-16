@@ -7,6 +7,8 @@ use App\Models\Feedback;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
+use App\Notifications\FeedbackSubmitted;
+
 
 class FeedbackController extends Controller
 {
@@ -28,7 +30,7 @@ class FeedbackController extends Controller
         $validator = Validator::make(['message' => $message], [
             'message' => 'required|string|min:3|max:1000',
         ], [
-            'message.required' => 'الرسالة مطلوبة.',
+            'message.required' => 'رأيك مهم، لا تترك الرسالة فاضية',
             'message.min' => 'الرسالة يجب أن تحتوي على 3 أحرف على الأقل.',
             'message.max' => 'الرسالة لا يجب أن تتجاوز 1000 حرف.',
         ]);
@@ -42,6 +44,7 @@ class FeedbackController extends Controller
             'message' => $message,
         ]);
 
+        Auth::user()->notify(new FeedbackSubmitted($message));
         return redirect()->back()->with('success', 'تم إرسال الفيدباك بنجاح!');
     }
 }

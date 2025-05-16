@@ -24,7 +24,7 @@
 
 <div class="container mt-5 py-5">
     <div class="text-center mb-5"> 
-        <h2 style="font-size: 50px; color: #005364; font-weight: 100px;">أهداف المنصة</h2>
+        <h2 style="font-size: 50px; color: #005364; font-weight: 100;">أهداف المنصة</h2>
     </div>
 
     <div class="row align-items-center">

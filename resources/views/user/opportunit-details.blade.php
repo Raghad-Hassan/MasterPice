@@ -1,157 +1,8 @@
-<!DOCTYPE html>
-<html lang="ar" dir="rtl">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>تفاصيل الفرصة التطوعية</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="{{ asset('assets/css/opportunit-details.css') }}" rel="stylesheet">
-    <style>
-        /* تنسيقات عامة */
-        body {
-            font-family: 'Tajawal', sans-serif;
-            background-color: #f5f5f5;
-            color: #333;
-            line-height: 1.6;
-        }
-        
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-        
-        /* تنسيقات التبويبات */
-        .tabs-section {
-            display: flex;
-            margin: 30px 0 20px;
-            border-bottom: 1px solid #ddd;
-        }
-        
-        .tab {
-            padding: 12px 25px;
-            cursor: pointer;
-            font-weight: 600;
-            color: #666;
-            transition: all 0.3s;
-            border-bottom: 3px solid transparent;
-        }
-        
-        .tab.active {
-            color: #02d3ac;
-            border-bottom-color: #02d3ac;
-        }
-        
-        /* تنسيقات التعليقات */
-        .comments-container {
-            background: white;
-            border-radius: 10px;
-            padding: 25px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-        }
-        
-        .comment-form {
-            margin-bottom: 30px;
-        }
-        
-        #comment-input {
-            width: 100%;
-            padding: 15px;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            resize: vertical;
-            min-height: 100px;
-            font-family: inherit;
-            transition: all 0.3s;
-        }
-        
-        #comment-input:focus {
-            border-color: #02d3ac;
-            outline: none;
-            box-shadow: 0 0 0 3px rgba(2, 211, 172, 0.1);
-        }
-        
-        #submit-comment {
-            background-color: #02d3ac;
-            color: white;
-            border: none;
-            padding: 12px 30px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: 600;
-            font-size: 16px;
-            transition: all 0.3s;
-            margin-top: 15px;
-        }
-        
-        #submit-comment:hover {
-            background-color: #02b797;
-            transform: translateY(-2px);
-        }
-        
-        .comments-list {
-            margin-top: 30px;
-        }
-        
-        .comment-item {
-            background: #f8f9fa;
-            border-radius: 8px;
-            padding: 20px;
-            margin-bottom: 20px;
-            border-right: 4px solid #02d3ac;
-            transition: transform 0.3s, box-shadow 0.3s;
-        }
-        
-        .comment-item:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-        }
-        
-        .comment-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 10px;
-        }
-        
-        .comment-author {
-            font-weight: 700;
-            color: #02d3ac;
-            font-size: 16px;
-        }
-        
-        .comment-date {
-            font-size: 12px;
-            color: #6c757d;
-        }
-        
-        .comment-text {
-            color: #495057;
-            line-height: 1.7;
-            font-size: 15px;
-        }
-        
-        .no-comments {
-            text-align: center;
-            padding: 30px;
-            color: #6c757d;
-            background: #f8f9fa;
-            border-radius: 8px;
-        }
-        
-        .error-message {
-            color: #dc3545;
-            margin-top: 10px;
-            font-size: 14px;
-        }
-    </style>
-</head>
-<body>
 
+<link href="{{ asset('assets/css/opportunit-details.css') }}" rel="stylesheet">
 @include('component.header')
 
-<div class="container">
+<div class="container mt-5">
     <div class="top-links">
         <a href="{{ route('index') }}">الصفحة الرئيسية</a>
         <a href="#">/ </a>
@@ -189,6 +40,29 @@
                 <input type="hidden" name="opportunity_id" value="{{ $opportunity->id }}">
                 <button type="submit" class="register-btn">سجل الآن</button>
             </form>
+
+          @if(session('success'))
+    <div class="alert alert-success">
+        {{ session('success') }}
+    </div>
+@endif
+
+@if(session('error'))
+    <div class="alert alert-danger">
+        {{ session('error') }}
+    </div>
+@endif
+
+@if($errors->any())
+    <div class="alert alert-danger">
+        @foreach ($errors->all() as $error)
+            <div>{{ $error }}</div>
+        @endforeach
+    </div>
+@endif
+
+
+
         </div>
     </div>
 
@@ -392,5 +266,3 @@ document.addEventListener('DOMContentLoaded', function() {
 
 @include('component.footer')
 
-</body>
-</html>

@@ -6,6 +6,17 @@
     <div class="form-container">
         
 
+      @if(auth()->check())
+    @foreach(auth()->user()->unreadNotifications as $notification)
+        @if($notification->type === 'App\Notifications\ConferenceRegistrationSuccess')
+            <div class="alert alert-success">
+                {{ $notification->data['message'] }}
+               
+            </div>
+        @endif
+    @endforeach
+@endif
+
         
         <form action="{{ route('conferences.register.submit', $conference->id) }}" method="POST">
             @csrf

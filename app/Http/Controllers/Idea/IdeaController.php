@@ -125,7 +125,9 @@ class IdeaController extends Controller
     $user = auth()->user();  
 
    
-    $existingLike = IdeaLike::where('user_id', $user->id)->where('idea_id', $ideaId)->first();
+    $existingLike = IdeaLike::where('user_id', $user->id)
+    ->where('idea_id', $ideaId)
+    ->first();
 
     if ($existingLike) {
        

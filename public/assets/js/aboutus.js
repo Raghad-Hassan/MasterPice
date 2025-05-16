@@ -1,8 +1,8 @@
 document.querySelectorAll('.navbar-nav .nav-link').forEach(item => {
     item.addEventListener('click', function() {
         document.querySelectorAll('.navbar-nav .nav-link').forEach(link => {
-            link.classList.remove('active'); // إزالة الفئة "active" من جميع الروابط
+            link.classList.remove('active'); 
         });
-        this.classList.add('active'); // إضافة الفئة "active" على الرابط الذي تم النقر عليه
+        this.classList.add('active'); 
     });
 });

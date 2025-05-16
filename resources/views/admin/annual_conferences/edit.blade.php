@@ -74,10 +74,10 @@
             <div class="col-md-6">
                 <div class="form-group">
                     <label for="status">حالة المؤتمر</label>
-                    <select class="form-control" id="status" name="status" required>
-                        <option value="active" {{ $conference->status == 'active' ? 'selected' : '' }}>نشط</option>
-                        <option value="pending" {{ $conference->status == 'pending' ? 'selected' : '' }}>قيد التنفيذ</option>
-                        <option value="inactive" {{ $conference->status == 'inactive' ? 'selected' : '' }}>منتهي</option>
+                   <select class="form-control" id="status" name="status" required>
+                    <option value="active" {{ $conference->status == 'active' ? 'selected' : '' }}>نشط</option>
+                    <option value="pending" {{ $conference->status == 'pending' ? 'selected' : '' }}>قيد التنفيذ</option>
+                    <option value="done" {{ $conference->status == 'done' ? 'selected' : '' }}>منتهي</option>
                     </select>
                     @error('status')
                         <span class="text-danger">{{ $message }}</span>

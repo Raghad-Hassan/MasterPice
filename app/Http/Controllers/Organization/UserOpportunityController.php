@@ -9,6 +9,8 @@ use App\Models\VolunteerOpportunity;
 use App\Models\Opportunity;
 use App\Models\Organization;
 use Illuminate\Http\Request;
+use App\Notifications\OpportunityRegistrationSuccess;
+use App\Notifications\OpportunityNotification;
 
 class UserOpportunityController extends Controller
 {
@@ -105,48 +107,46 @@ class UserOpportunityController extends Controller
         }
     }
 
-    public function registerOpportunity(Request $request)
-    {
-       
-        if (!auth()->check()) {
-            return redirect()->route('login')->withErrors('يرجى تسجيل الدخول أولاً');
-        }
-    
-        try {
-           
-            $opportunity = VolunteerOpportunity::findOrFail($request->opportunity_id);
-    
-           
-            $existing = OpportunityApplication::where([
-                'user_id' => auth()->id(),
-                'opportunity_id' => $opportunity->id
-            ])->exists();
-    
-            if ($existing) {
-                return redirect()->back()->withErrors('مسجل مسبقاً في هذه الفرصة');
-            }
-    
-            OpportunityApplication::create([
-                'user_id' => auth()->id(),
-                'opportunity_id' => $opportunity->id, 
-                'status' => 'pending',
-            ]);
-    
-          
-            $opportunity->increment('current_volunteers');
-    
-            return redirect()->back()->with('success', 'تم التسجيل بنجاح');
-    
-        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
-            return redirect()->back()->withErrors('الفرصة التطوعية غير موجودة');
-            
-        } catch (\Illuminate\Database\QueryException $e) {
-            return redirect()->back()->withErrors('حدث خطأ في قاعدة البيانات: ' . $e->getMessage());
-            
-        } catch (\Exception $e) {
-            return redirect()->back()->withErrors('حدث خطأ غير متوقع: ' . $e->getMessage());
-        }
+public function registerOpportunity(Request $request)
+{
+    if (!auth()->check()) {
+        return redirect()->route('login')->withErrors('يرجى تسجيل الدخول أولاً');
     }
+
+    try {
+        $opportunity = VolunteerOpportunity::findOrFail($request->opportunity_id);
+
+        if ($opportunity->current_volunteers >= $opportunity->total_volunteers) {
+            return redirect()->back()->with('error', 'عذراً، لقد اكتمل العدد المتطوعين لهذه الفرصة.');
+        }
+
+        $existing = OpportunityApplication::where([
+            'user_id' => auth()->id(),
+            'opportunity_id' => $opportunity->id
+        ])->exists();
+
+        if ($existing) {
+            return redirect()->back()->with('error', 'مسجل مسبقاً في هذه الفرصة');
+        }
+
+        OpportunityApplication::create([
+            'user_id' => auth()->id(),
+            'opportunity_id' => $opportunity->id,
+            'status' => 'pending',
+        ]);
+
+        $opportunity->increment('current_volunteers');
+
+        return redirect()->back()->with('success', 'تم التسجيل بنجاح');
+
+    } catch (\Exception $e) {
+        return redirect()->back()->withErrors('حدث خطأ: ' . $e->getMessage());
+    }
+}
+
+
+
+
 
     public function showGoals()
 {

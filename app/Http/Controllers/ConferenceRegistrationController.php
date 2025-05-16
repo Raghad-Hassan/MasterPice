@@ -18,14 +18,13 @@ class ConferenceRegistrationController extends Controller
             'interest_field' => 'required|string',
             'city' => 'required|string',
             'previous_experience' => 'required|in:yes,no',
-            'experience_details' => 'nullable|string|required_if:previous_experience,yes',
+           'experience_details' => 'nullable|string',
             'skills' => 'nullable|array',
             'skills.*' => 'string',
             'motivation' => 'required|string',
             'conference_id' => 'required|exists:annual_conferences,id',
         ], [
             'email.unique' => 'هذا البريد الإلكتروني مسجل بالفعل للمؤتمر.',
-            'required_if' => 'حقل تفاصيل الخبرة مطلوب عند اختيار "نعم".',
         ]);
 
        
@@ -45,9 +44,10 @@ class ConferenceRegistrationController extends Controller
         $registration->save();
 
        
-        return redirect()->back()->with('success', 'تم التسجيل بنجاح لحضور المؤتمر!');
-    }
+ 
 
 
    
+}
+
 }

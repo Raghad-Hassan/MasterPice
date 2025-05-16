@@ -518,16 +518,44 @@ body {
 
 
     <!-- نافذة البوب أب لإدخال الرأي -->
- <div id="message-modal" class="modal">
+ {{-- نحدد حالة عرض المودال حسب وجود success أو errors --}}
+@php
+    $showModal = session('success') || $errors->any();
+@endphp
+
+<div id="message-modal" class="modal" style="display: {{ $showModal ? 'flex' : 'none' }};">
     <div class="modal-content">
         <div class="modal-header">
             <h2>شاركنا رأيك</h2>
         </div>
+
         <form method="POST" action="{{ route('feedback.store') }}">
             @csrf
             <div class="modal-body">
-                <textarea id="user-message" name="message" placeholder="اكتب رأيك هنا..."></textarea>
+
+                {{-- رسالة النجاح --}}
+                @if (session('success'))
+                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                        {{ session('success') }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                @endif
+
+                {{-- رسائل الأخطاء --}}
+                @if ($errors->any())
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        <ul class="mb-0">
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                @endif
+
+                <textarea id="user-message" name="message" placeholder="اكتب رأيك هنا...">{{ old('message') }}</textarea>
             </div>
+
             <div class="modal-footer">
                 <button type="submit" class="submit-btn">إرسال</button>
                 <button type="button" class="close-btn" onclick="closeMessageModal()">إغلاق</button>
@@ -535,34 +563,22 @@ body {
         </form>
     </div>
 </div>
-    <script>
 
+<script>
+    function openMessageModal() {
+        document.getElementById("message-modal").style.display = "flex";
+    }
 
-        
-        function openMessageModal() {
-            document.getElementById("message-modal").style.display = "flex";
-        }
+    function closeMessageModal() {
+        document.getElementById("message-modal").style.display = "none";
+    }
 
-        function closeMessageModal() {
-            document.getElementById("message-modal").style.display = "none";
-        }
+    function toggleSocialLinks() {
+        var circle = document.getElementById("social-circle");
+        circle.classList.toggle("active");
+    }
+</script>
 
-        function submitMessage() {
-            let message = document.getElementById("user-message").value;
-            if (message.trim() !== "") {
-                alert("تم إرسال رأيك بنجاح: " + message);
-                closeMessageModal();
-            } else {
-                alert("يرجى كتابة رأيك أولاً.");
-            }
-        }
-
-        function toggleSocialLinks() {
-    var circle = document.getElementById("social-circle");
-    circle.classList.toggle("active");
-}
-
-    </script>
     <!-- Bootstrap JS (إذا كنت تستخدم Bootstrap 5، يجب استخدام فقط Bootstrap.bundle.min.js) -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>

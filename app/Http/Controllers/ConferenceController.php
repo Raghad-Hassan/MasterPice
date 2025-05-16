@@ -4,7 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\AnnualConference;
 use App\Models\ConferenceRegistration;
-use Illuminate\Http\Request;
+use Illuminate\Http\Request;use App\Notifications\ConferenceRegistrationSuccess;
+use Illuminate\Support\Facades\Auth;
 
 class ConferenceController extends Controller
 {
@@ -19,25 +20,21 @@ class ConferenceController extends Controller
             return view('index')->with('message', 'لا توجد مؤتمرات متاحة حالياً');
         }
     
-        return view('index', compact('conference'));
+        return view('conferences.register', compact('conference'));
     }
 
     
     public function showRegistrationForm($id)
-    {
-       
-        $conference = AnnualConference::findOrFail($id);
-        
-        if (!$conference->active) {
-            abort(404, 'المؤتمر غير متاح حالياً');
-        }
-        
-        return view('conferences.register', compact('conference'));
+{
+    $conference = AnnualConference::findOrFail($id);
+
+    if ($conference->status !== 'active') {
+        abort(404, 'المؤتمر غير متاح حالياً');
     }
 
+    return view('conferences.register', compact('conference'));
+}
 
-
-    
     public function register(Request $request, $conferenceId)
     {
        
@@ -54,7 +51,8 @@ class ConferenceController extends Controller
             'motivation' => 'required|string',
         ]);
 
-       
+        $conference = AnnualConference::findOrFail($conferenceId);
+
         $registration = new ConferenceRegistration();
         $registration->fill([
             'full_name' => $request->full_name,
@@ -73,10 +71,13 @@ class ConferenceController extends Controller
 
         $registration->save();
 
-        return redirect()->route('conferences.index')
-                       ->with('success', 'تم تسجيلك في المؤتمر بنجاح!');
-    }
+         $user = auth()->user();
+    
+         $user->notify(new ConferenceRegistrationSuccess($conference));
 
+          return redirect()->back()
+                     ->with('success', 'تم التسجيل بنجاح! سنقوم بالتواصل معك قريباً.');
+    }
     
     public function show($id)
 {
