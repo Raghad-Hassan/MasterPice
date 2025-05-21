@@ -38,7 +38,6 @@ class AnnualConferenceController extends Controller
     
     $conference = new AnnualConference($request->all());
 
-   
     $conference->save();
 
    
@@ -69,15 +68,13 @@ class AnnualConferenceController extends Controller
 
         $conference->update($request->except('image'));
 
-    // حدث حالة المؤتمر بشكل صريح (لو ما كانت موجودة في all())
-    $conference->status = $request->input('status');
+    
+       $conference->status = $request->input('status');
 
-    // إذا تم رفع صورة، خزّنها
+  
     if ($request->hasFile('image')) {
         $conference->image = $request->file('image')->store('images', 'public');
     }
-
-    // احفظ التغييرات (صورة وحالة)
     $conference->save();
 
     return redirect()->route('admin.annual-conferences.index')->with('success', 'تم تحديث المؤتمر بنجاح');

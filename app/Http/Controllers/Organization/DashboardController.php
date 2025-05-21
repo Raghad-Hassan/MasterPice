@@ -6,8 +6,10 @@ use App\Http\Controllers\Controller;
 use App\Models\VolunteerOpportunity;
 use App\Models\OpportunityApplication;
 use App\Models\OpportunityComment;
-use App\Models\User; // تأكد من استيراد نموذج المستخدم
+use App\Models\User; 
 use Illuminate\Http\Request;
+use App\Models\Comment;
+use App\Models\Organization;
 
 class DashboardController extends Controller
 {
@@ -35,27 +37,41 @@ class DashboardController extends Controller
     ];
 }
 
-    public function index()
-    {
-        $data = $this->getDashboardData();
-        return view('organization.dashboard', $data);
-    }
+   public function index()
+{
+    $data = $this->getDashboardData();
 
-    // دالة عرض تفاصيل الفرصة التطوعية
-    public function show($id)
-    {
-        $data = $this->getDashboardData();
+    
+    $organization = Organization::where('user_id', auth()->id())->first();
 
-        // بيانات الفرصة المحددة
-        $opportunity = VolunteerOpportunity::findOrFail($id);
-        $data['opportunity']   = $opportunity;
-        $data['applications']  = OpportunityApplication::where('opportunity_id', $id)->get();
-        $data['comments']      = OpportunityComment::where('opportunity_id', $id)->get();
+    
+    $data['organization'] = $organization;
 
-        return view('organization.dashboard', $data);
-    }
+    return view('organization.dashboard', $data);
+}
 
-    // دالة لرفض طلب التقديم
+
+public function show($id)
+{
+    $data = $this->getDashboardData();
+
+   
+    $opportunity = VolunteerOpportunity::findOrFail($id);
+    $data['opportunity']   = $opportunity;
+    $data['applications']  = OpportunityApplication::where('opportunity_id', $id)->get();
+    $data['comments']      = OpportunityComment::where('opportunity_id', $id)->get();
+
+    
+    $organization = Organization::where('user_id', auth()->id())->first();
+
+   
+    $data['organization'] = $organization;
+
+    return view('organization.dashboard', $data);
+}
+
+
+   
     public function rejectApplication($applicationId)
     {
         $application = OpportunityApplication::findOrFail($applicationId);
@@ -64,4 +80,7 @@ class DashboardController extends Controller
 
         return redirect()->back()->with('success', 'تم رفض الطلب');
     }
+
+
+
 }

@@ -9,13 +9,25 @@
       @if(auth()->check())
     @foreach(auth()->user()->unreadNotifications as $notification)
         @if($notification->type === 'App\Notifications\ConferenceRegistrationSuccess')
-            <div class="alert alert-success">
+            <div class="alert alert-success" id="success-notification">
                 {{ $notification->data['message'] }}
-               
             </div>
         @endif
     @endforeach
 @endif
+
+
+<script>
+    setTimeout(function() {
+        var alertBox = document.getElementById('success-notification');
+        if (alertBox) {
+            alertBox.style.transition = 'opacity 0.5s ease';
+            alertBox.style.opacity = '0';
+            setTimeout(() => alertBox.remove(), 500); // يحذفها نهائياً بعد الاختفاء
+        }
+    }, 8000); // 60 ثانية = 60000 ملي ثانية
+</script>
+
 
         
         <form action="{{ route('conferences.register.submit', $conference->id) }}" method="POST">

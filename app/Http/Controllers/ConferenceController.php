@@ -161,7 +161,7 @@ class ConferenceController extends Controller
             'active' => 'sometimes|boolean',
         ]);
 
-        // تحديث المؤتمر
+       
         $conference->update($request->except('image'));
 
        
@@ -181,15 +181,11 @@ class ConferenceController extends Controller
     }
 
    
+ 
     public function showParticipants($id)
 {
-   
-    $conference = AnnualConference::findOrFail($id);
-
-    
-    $registrations = ConferenceRegistration::where('conference_id', $id)->get();
-
-   
+     $conference = AnnualConference::findOrFail($id);
+     $registrations = ConferenceRegistration::where('conference_id', $id)->get();
     return view('admin.participants', compact('conference', 'registrations'));
 }
 

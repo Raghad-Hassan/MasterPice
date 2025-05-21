@@ -136,6 +136,18 @@
 <body>
 
     <div class="container">
+
+
+    @if($errors->any())
+<div class="alert alert-danger">
+    <ul>
+        @foreach($errors->all() as $error)
+            <li>{{ $error }}</li>
+        @endforeach
+    </ul>
+</div>
+@endif
+
         <h1><i class="fas fa-building"></i> إنشاء حساب مؤسسة</h1>
         <a class="back-link" href="{{ route('index') }}"><i class="fas fa-arrow-left"></i> الرجوع الى الصفحه الرئيسية</a>
 

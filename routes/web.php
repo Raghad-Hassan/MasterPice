@@ -33,7 +33,9 @@ use App\Http\Controllers\Organization\CertificateController;
 use App\Http\Controllers\Organization\GoalController;
 use App\Http\Controllers\Organization\SdgImageController;
 use App\Http\Controllers\Organization\OrganizationProfileController;
-
+use App\Http\Controllers\Organization\InstitutionController;
+use App\Http\Controllers\Organization\NewsletterSubscriptionController;
+use App\Http\Controllers\Organization\CommentController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -349,5 +351,9 @@ Route::post('/organization/certificates', [CertificateController::class, 'store'
  ->name('organization.opportunities.index');
 
 
+// newsletter
+Route::get('/organization/newsletter', [NewsletterSubscriptionController::class, 'index'])->name('organization.newsletter.index');
 
-
+// Comment
+Route::get('organization/comments', [CommentController::class, 'index'])
+    ->name('organization.comments.index');

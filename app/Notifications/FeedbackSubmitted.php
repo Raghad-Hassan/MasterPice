@@ -18,7 +18,7 @@ class FeedbackSubmitted extends Notification
 
     public function via($notifiable)
     {
-        return ['database']; // حفظ في قاعدة البيانات
+        return ['database']; 
     }
 
     public function toDatabase($notifiable)

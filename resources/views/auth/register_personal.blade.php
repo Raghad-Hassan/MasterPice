@@ -195,7 +195,8 @@
         <a class="back-link" href="{{ route('index') }}">
             <i class="fas fa-arrow-left"></i> الرجوع الى الصفحه الرئيسية
         </a>
-       <form action="{{ route('register.submit') }}" method="POST">
+        
+        <form action="{{ route('register.submit') }}" method="POST">
             @csrf
             
             @if($errors->any())
@@ -208,51 +209,56 @@
                 </div>
             @endif
 
-            <div class="form-group">
-                <div style="width:48%;">
+            <!-- الصف الأول -->
+            <div class="form-row">
+                <div class="form-group">
                     <label for="first_name">الاسم الأول</label>
                     <input type="text" id="first_name" name="first_name" placeholder="الاسم الأول" required value="{{ old('first_name') }}">
                 </div>
-                <div style="width:48%;">
+                
+                <div class="form-group">
                     <label for="last_name">اسم العائلة</label>
                     <input type="text" id="last_name" name="last_name" placeholder="اسم العائلة" required value="{{ old('last_name') }}">
                 </div>
             </div>
 
-            <div class="form-group">
-                <div style="width:48%;">
+            <!-- الصف الثاني -->
+            <div class="form-row">
+                <div class="form-group">
                     <label for="phone">رقم الهاتف</label>
                     <input type="text" id="phone" name="phone" placeholder="رقم الهاتف" required value="{{ old('phone') }}">
                 </div>
-               
+                
+                <div class="form-group">
+                    <label for="email">البريد الإلكتروني</label>
+                    <input type="email" id="email" name="email" placeholder="example@email.com" required value="{{ old('email') }}">
+                </div>
             </div>
 
-            <div class="form-group">
-                <div>
+            <!-- الصف الثالث -->
+            <div class="form-row">
+                <div class="form-group">
                     <label for="gender">الجنس</label>
                     <select id="gender" name="gender" required>
                         <option value="male" {{ old('gender') == 'male' ? 'selected' : '' }}>ذكر</option>
                         <option value="female" {{ old('gender') == 'female' ? 'selected' : '' }}>أنثى</option>
                     </select>
                 </div>
-                <div>
-                    <label for="nationality">الجنسيه</label>
-                    <input type="text" id="nationality" name="nationality" placeholder="الجنسيه" required value="{{ old('nationality') }}">
+                
+                <div class="form-group">
+                    <label for="nationality">الجنسية</label>
+                    <input type="text" id="nationality" name="nationality" placeholder="الجنسية" required value="{{ old('nationality') }}">
                 </div>
             </div>
-            
-           
-            
-                <div style="width:48%;">
-                    <label for="governorate" >المحافظة</label>
-                    <select id="governorate" name="governorate" class=".form-group " required>
 
-                        
-
+            <!-- الصف الرابع -->
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="governorate">المحافظة</label>
+                    <select id="governorate" name="governorate" required>
                         <option value="" disabled selected>اختر المحافظة</option>
                         <option value="البلقاء" {{ old('governorate') == 'البلقاء' ? 'selected' : '' }}>البلقاء</option>
-
-                         <option value="عمان" {{ old('governorate') == 'عمان' ? 'selected' : '' }}>عمان</option>
+                        <option value="عمان" {{ old('governorate') == 'عمان' ? 'selected' : '' }}>عمان</option>
                         <option value="إربد" {{ old('governorate') == 'إربد' ? 'selected' : '' }}>إربد</option>
                         <option value="الزرقاء" {{ old('governorate') == 'الزرقاء' ? 'selected' : '' }}>الزرقاء</option>
                         <option value="المفرق" {{ old('governorate') == 'المفرق' ? 'selected' : '' }}>المفرق</option>
@@ -266,44 +272,31 @@
                         <option value="الرمثا" {{ old('governorate') == 'الرمثا' ? 'selected' : '' }}>الرمثا</option>
                     </select>
                 </div>
-          
-
-            
-            <div class="form-group">
-                <div style="width:48%;">
+                
+                <div class="form-group">
                     <label for="birth_date">تاريخ الميلاد</label>
                     <input type="date" id="birth_date" name="birth_date" required value="{{ old('birth_date') }}">
                 </div>
-                
-                <div style="width:48%;">
-                    <label for="email">البريد الإلكتروني</label>
-                    <input type="email" id="email" name="email" placeholder="example@email.com" required value="{{ old('email') }}">
-                </div>
             </div>
-            
-            <div class="form-group">
-                <div style="width:48%;">
+
+            <!-- الصف الخامس -->
+            <div class="form-row">
+                <div class="form-group">
                     <label for="password">كلمة السر</label>
                     <input type="password" id="password" name="password" placeholder="كلمة السر" required>
                 </div>
-                <div style="width:48%;">
+                
+                <div class="form-group">
                     <label for="password_confirmation">تأكيد كلمة السر</label>
                     <input type="password" id="password_confirmation" name="password_confirmation" placeholder="تأكيد كلمة السر" required>
                 </div>
             </div>
-            
 
-            <button type="submit">تسجيل</button>
-        
+            <div class="form-actions">
+                <button type="submit">تسجيل</button>
+                <button type="button" onclick="window.location.href='{{ route('login1') }}'">تسجيل الدخول الى الحساب الشخصي</button>
+            </div>
         </form>
-
-        <!-- مركزية الزر -->
-        <div class="center-button">
-            <button onclick="window.location.href='{{ route('login1') }}'">تسجيل الدخول الى الحساب الشخصي</button>
-        </div>
     </div>
-    </div>
-
-    
 </body>
 </html>

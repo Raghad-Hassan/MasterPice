@@ -78,20 +78,6 @@ class IdeaController extends Controller
             $idea->related_entities = $request->input('idea_authorities');
             $idea->status = 'pending';
     
-           
-            
-        if ($request->hasFile('image')) {
-            
-            if ($idea->image) {
-                Storage::delete('public/'.$idea->image);
-            }
-            
-            
-            $imagePath = $request->file('image')->store('ideas', 'public');
-            $idea->image = $imagePath;
-        }
-
-            
             $idea->save();
     
           
@@ -107,18 +93,16 @@ class IdeaController extends Controller
         }
     }
     
-    
 
     public function index()
     {
-        $ideas = Idea::with('user')->where('status', 'approved')
+        $ideas = Idea::with('user')
+        ->where('status', 'approved')
         ->where('status', '!=', 'hidden_from_institution')
-        ->get();
+         ->paginate(10);
         return view('ideas.index', compact('ideas'));
     }
-
-
-
+    
 
     public function like(Request $request, $ideaId)
 {

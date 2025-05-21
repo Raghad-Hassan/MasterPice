@@ -80,7 +80,7 @@
             @forelse($recentActivities as $activity)
                 <li class="activity-item">
                     <div class="activity-icon">
-                        <i class="fas fa-hand-holding-heart"></i> {{-- أيقونة عامة للفرص مثلاً --}}
+                        <i class="fas fa-hand-holding-heart"></i> 
                     </div>
                     <div class="activity-details">
                         <h3 class="activity-title">{{ $activity->opportunity->title }}</h3>

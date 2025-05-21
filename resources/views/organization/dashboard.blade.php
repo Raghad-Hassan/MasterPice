@@ -141,7 +141,12 @@
 </style>
 
 <div class="dashboard-container">
-    <h2 class="mb-4" style="font-weight: 700; color: #005364;">لوحة تحكم المؤسسة</h2>
+
+
+<h2 class="mb-4" style="font-weight: 700; color: #005364;">
+    {{ $organization ? $organization->organization_name : 'لوحة تحكم ' }}
+</h2>
+
 
     <!-- بطاقات الإحصائيات -->
     <div class="row mb-4">

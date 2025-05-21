@@ -9,7 +9,6 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
 use App\Notifications\FeedbackSubmitted;
 
-
 class FeedbackController extends Controller
 {
     public function __construct()
@@ -19,14 +18,14 @@ class FeedbackController extends Controller
 
     public function store(Request $request)
     {
+        
         if (!Auth::check()) {
             return redirect()->route('login')->with('error', 'يجب تسجيل الدخول أولاً لإرسال الفيدباك.');
         }
 
-        // أولاً نعمل trim للرسالة
         $message = trim($request->input('message'));
 
-        // ثم نعمل فاليديشن بعد الـ trim
+       
         $validator = Validator::make(['message' => $message], [
             'message' => 'required|string|min:3|max:1000',
         ], [
@@ -35,8 +34,12 @@ class FeedbackController extends Controller
             'message.max' => 'الرسالة لا يجب أن تتجاوز 1000 حرف.',
         ]);
 
+       
         if ($validator->fails()) {
-            return redirect()->back()->withErrors($validator)->withInput();
+            return redirect()->back()
+                ->with('show_feedback_modal', true) 
+                ->withErrors($validator)
+                ->withInput();
         }
 
         Feedback::create([
@@ -44,7 +47,12 @@ class FeedbackController extends Controller
             'message' => $message,
         ]);
 
+        
         Auth::user()->notify(new FeedbackSubmitted($message));
-        return redirect()->back()->with('success', 'تم إرسال الفيدباك بنجاح!');
+
+        return redirect()->back()
+            ->with('show_feedback_modal', true)
+            ->with('success', 'تم إرسال الفيدباك بنجاح!')
+            ->withInput([]); 
     }
 }

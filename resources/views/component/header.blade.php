@@ -46,173 +46,167 @@ body {
 }
 
 /* Navbar styling */
+/* أساسيات النافبار */
 .navbar {
-    background-color: #005364; 
+    background-color: #005364;
     font-size: 18px;
-    padding: 1rem 2rem;
+    padding: 0.8rem 1.5rem;
+    transition: all 0.3s ease;
 }
 
+/* تحسينات للشاشات الصغيرة */
+@media (max-width: 991.98px) {
+    .navbar {
+        padding: 0.5rem 1rem;
+    }
+    
+    .navbar-brand img.logo-img {
+        height: 50px !important;
+    }
+    
+    .navbar-nav {
+        padding: 1rem 0;
+    }
+    
+    .nav-item {
+        margin: 0.5rem 0;
+    }
+}
+
+/* زر تسجيل الدخول */
 .btn-login {
-    background-color: #02d3ac; 
+    background-color: #02d3ac;
     color: white;
     border: none;
-    padding: 10px 20px;
+    padding: 8px 16px;
     border-radius: 5px;
     text-decoration: none;
-}
-
-.navbar.fixed-top {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    z-index: 9999;
+    transition: all 0.3s ease;
+    white-space: nowrap;
 }
 
 .btn-login:hover {
     background-color: #019f87;
     color: white;
+    transform: translateY(-2px);
 }
 
+/* روابط القائمة */
 .navbar-nav .nav-link {
     color: white !important;
-    margin: 0 15px;
-    text-decoration: none;
+    margin: 0 10px;
+    padding: 0.5rem 1rem !important;
+    position: relative;
+    transition: all 0.3s ease;
 }
-
 
 .navbar-nav .nav-link:hover {
     color: #02d3ac !important;
-    transition: color 0.3s ease-in-out;
-    border-bottom: 2px solid #02d3ac;
 }
 
-
+/* تأثير العنصر النشط */
+.navbar-nav .nav-item.active .nav-link,
 .navbar-nav .nav-link.active {
     color: #02d3ac !important;
-    border-bottom: 2px solid #02d3ac;
-}
-
-
-@media (max-width: 991px) {
-    .navbar-nav {
-        text-align: center;
-    }
-
-    
-    .navbar-nav .nav-link {
-        font-size: 16px;
-        margin: 10px 0;
-    }
-
-    .navbar {
-        padding: 1rem;
-    }
-
-    
-    .btn-login {
-        font-size: 16px;
-        padding: 12px 24px;
-    }
-}
-
-
-/* ===== عناصر القائمة ===== */
-.nav-item .nav-link {
-    color: white;
-    padding: 0.5rem 1rem;
-    transition: color 0.3s ease;
-}
-
-.nav-item .nav-link:hover {
-    color: #02d3ac;
-}
-
-.active-link {
-    color: #ff6600 !important;
-    font-weight: bold;
-}
-
-/* ===== Dropdown المستخدم ===== */
-.dropdown {
-    position: relative;
-    display: inline-block;
-}
-
-.btn.dropdown-toggle {
-    background: transparent;
-    border: none;
-    color: white;
-    display: flex;
-    align-items: center;
-    padding: 0.5rem 1rem;
-    transition: none;
-}
-
-.icon-style {
-    color: white !important;
-    font-size: 2rem !important;
-    margin-right: 0.5rem;
-    margin-left: 100px !important;
-    transition: none !important;
-}
-
-.icon-style:hover {
-    color: #02d3ac !important;
-}
-
-/* إزالة تأثيرات الضغط */
-.btn.dropdown-toggle:active,
-.btn.dropdown-toggle:focus,
-.icon-style:active,
-.icon-style:focus {
-    transform: none !important;
-    outline: none !important;
-    box-shadow: none !important;
-    border: none !important;
-}
-
-.dropdown-toggle::after {
-    display: none !important;
-}
-
-/* قائمة Dropdown */
-.dropdown-menu {
-    background-color: #ffffff;
-    border: 1px solid #333;
-    border-radius: 0.25rem;
-    margin-top: 0.5rem !important;
-    width: 100%;
-    min-width: 200px;
-    position: absolute !important;
-    left: 0 !important;
-}
-
-.dropdown-item {
-    color: #029a84 !important;
-    padding: 0.75rem 1.5rem;
-    text-align: right;
-    transition: background-color 0.2s ease;
-    font-size: 1rem;
-    border-bottom: 1px solid #333;
     font-weight: 600;
 }
 
-.dropdown-item:last-child {
-    border-bottom: none;
+.navbar-nav .nav-item.active .nav-link::after,
+.navbar-nav .nav-link.active::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background-color: #02d3ac;
+    transition: all 0.3s ease;
+}
+
+/* قائمة المستخدم المنسدلة */
+.user-dropdown {
+    background: transparent !important;
+    border: none !important;
+    color: white !important;
+    display: flex;
+    align-items: center;
+    padding: 0.5rem 1rem !important;
+}
+
+.user-dropdown:focus {
+    box-shadow: none !important;
+}
+
+.icon-style {
+      color: white !important;
+    font-size: 1.8rem !important;
+    margin-left: 80px; /* بدل ما كان margin-right */
+    transition: color 0.3s ease !important;
+
+}
+
+.user-dropdown:hover .icon-style {
+    color: #02d3ac !important;
+    margin-left: 80px; /* بدل ما كان margin-right */
+}
+
+.dropdown-menu {
+    background-color: #ffffff;
+    border: 1px solid rgba(0, 0, 0, 0.15);
+    border-radius: 0.5rem;
+    margin-top: 0.5rem !important;
+   
+}
+.dropdown-menu-end {
+    right: 0 !important;
+    left: auto !important;
+    min-width: 180px;
+    z-index: 1050;
+    overflow: hidden;
+    transform: translateX(0%) !important;
+}
+
+/* في الشاشات الصغيرة: خلّي القائمة تاخذ عرض الشاشة تقريباً */
+@media (max-width: 575.98px) {
+    .dropdown-menu-end {
+        left: 0 !important;
+        right: 0 !important;
+        width: 95% !important;
+        margin: 0 auto;
+    }
+}
+
+/* عناصر القائمة المنسدلة */
+.dropdown-item {
+    color: #029a84 !important;
+    padding: 0.5rem 1.5rem;
+  
+    transition: all 0.2s ease;
+    font-size: 0.95rem;
+    font-weight: 600;
 }
 
 .dropdown-item:hover {
     background-color: #02d3ac !important;
     color: #fff !important;
+    padding-right: 1.5rem;
 }
 
-.dropdown-item[type="submit"] {
-    background: none;
-    border: none;
-    width: 100%;
-    text-align: right;
-    cursor: pointer;
+/* تحسينات للهواتف */
+@media (max-width: 575.98px) {
+    .navbar-brand img.logo-img {
+        height: 45px !important;
+    }
+    
+    .btn-login {
+        padding: 0.5rem 1rem;
+        font-size: 0.9rem;
+    }
+    
+    .navbar-nav .nav-link {
+        font-size: 1rem;
+        padding: 0.5rem !important;
+    }
 }
 
 /* ===== الدوائر الجانبية ===== */
@@ -427,50 +421,81 @@ body {
     color: white;
 }
 
+.user-dropdown.dropdown-toggle::after {
+    display: none !important;
+}
+
+
     </style>
 </head>
 
 <body>
     
-    <nav class="navbar navbar-expand-lg navbar-light fixed-top">
-        <div class="container-fluid">
-            <a class="navbar-brand d-flex align-items-center" href="{{ url('/') }}">
-                <img src="{{ asset('assets/img/logo2.png') }}" alt="اللوغو" height="100" class="me-2">
-            </a>
-    
-            <!-- Button to toggle navbar collapse on small screens -->
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-    
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav mx-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('index') }}">الرئيسية</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('تعرف') }}">تعرف علينا</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('نساهم') }}">لماذا نساهم؟</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('عرض') }}">شارك معنا</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('بنك') }}">بنك الأفكار</a>
-                    </li>
-                </ul>
-            </div>
-    
-            <!-- Dropdown for user authentication -->
-            <div class="dropdown">
-                @auth
-                    <button class="btn dropdown-toggle" type="button" id="userDropdown" data-bs-toggle="dropdown">
-                        <i class="fas fa-user-circle me-1 icon-style" style="color: white; font-size: 2rem;"></i>
-                        {{ Auth::user()->name }}
+  <nav class="navbar navbar-expand-lg navbar-light fixed-top">
+    <div class="container-fluid">
+        <!-- الشعار -->
+        <a class="navbar-brand d-flex align-items-center" href="{{ url('/') }}">
+            <img src="{{ asset('assets/img/logo2.png') }}" alt="اللوغو" height="100" class="me-2 logo-img">
+        </a>
+
+        <!-- زر القائمة للهواتف -->
+        <button class="navbar-toggler ms-auto" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <!-- عناصر القائمة -->
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav mx-auto">
+            <li class="nav-item {{ request()->routeIs('index') ? 'active' : '' }}">
+                <a class="nav-link" href="{{ route('index') }}">الرئيسية</a>
+            </li>
+            <li class="nav-item {{ request()->routeIs('تعرف') ? 'active' : '' }}">
+                <a class="nav-link" href="{{ route('تعرف') }}">تعرف علينا</a>
+            </li>
+            <li class="nav-item {{ request()->routeIs('نساهم') ? 'active' : '' }}">
+                <a class="nav-link" href="{{ route('نساهم') }}">لماذا نساهم؟</a>
+            </li>
+            <li class="nav-item {{ request()->routeIs('عرض') ? 'active' : '' }}">
+                <a class="nav-link" href="{{ route('عرض') }}">شارك معنا</a>
+            </li>
+            <li class="nav-item {{ request()->routeIs('بنك') ? 'active' : '' }}">
+                <a class="nav-link" href="{{ route('بنك') }}">بنك الأفكار</a>
+            </li>
+        </ul>
+
+                <!-- نسخة الموبايل من تسجيل الدخول / الملف الشخصي -->
+                <div class="d-lg-none mt-3">
+                    @auth
+                        <div class="dropdown">
+                           <a class="nav-link text-center" href="#" id="mobileUserDropdown" data-bs-toggle="dropdown">
+                                <i class="fas fa-user-circle me-1"></i> {{ Auth::user()->name }}
+                            </a>
+                            <ul class="dropdown-menu w-100">
+                                <li><a class="dropdown-item" href="{{ route('profile.show') }}">الصفحة الشخصية</a></li>
+                                <li>
+                                    <form method="POST" action="{{ route('logout') }}">
+                                        @csrf
+                                        <button type="submit" class="dropdown-item">تسجيل الخروج</button>
+                                    </form>
+                                </li>
+                            </ul>
+                        </div>
+                    @else
+                        <a href="{{ route('login') }}" class="btn-login w-100 text-center d-block">تسجيل الدخول</a>
+                    @endauth
+                </div>
+            </ul>
+        </div>
+
+        <!-- تسجيل الدخول أو الملف الشخصي (دائمًا ظاهر على الشاشات الكبيرة) -->
+        <div class="d-none d-lg-flex align-items-center ms-auto">
+            @auth
+                <div class="dropdown">
+                    <button class="btn dropdown-toggle user-dropdown" type="button" id="userDropdown" data-bs-toggle="dropdown">
+                        <i class="fas fa-user-circle me-1 icon-style"></i>
+                        <span class="d-none d-md-inline">{{ Auth::user()->name }}</span>
                     </button>
-                    <ul class="dropdown-menu dropdown-menu-end" style="margin-top: 50px;">
+                    <ul class="dropdown-menu dropdown-menu-end">
                         <li><a class="dropdown-item" href="{{ route('profile.show') }}">الصفحة الشخصية</a></li>
                         <li>
                             <form method="POST" action="{{ route('logout') }}">
@@ -479,12 +504,14 @@ body {
                             </form>
                         </li>
                     </ul>
-                @else
-                    <a href="{{ route('login') }}" class="btn-login">تسجيل الدخول</a>
-                @endauth
-            </div>
+                </div>
+            @else
+                <a href="{{ route('login') }}" class="btn-login">تسجيل الدخول</a>
+            @endauth
         </div>
-    </nav>
+    </div>
+</nav>
+
     
 
 
@@ -500,7 +527,7 @@ body {
 
        
         <!-- دائرة التواصل الاجتماعي -->
-<div class="circle" id="social-circle" onclick="toggleSocialLinks()">
+{{-- <div class="circle" id="social-circle" onclick="toggleSocialLinks()">
     <i class="fas fa-share-alt"></i>
     <span class="tooltip">مواقع التواصل الاجتماعي</span>
     <!-- روابط التواصل الاجتماعي (تم وضعها داخل الدائرة الآن) -->
@@ -509,21 +536,11 @@ body {
         <a href="https://www.twitter.com" target="_blank" class="social-icon"><i class="fab fa-twitter"></i></a>
         <a href="https://www.instagram.com" target="_blank" class="social-icon"><i class="fab fa-instagram"></i></a>
     </div>
-</div>
-
-
-        
-        
+</div>  --}}
     </div>
 
-
-    <!-- نافذة البوب أب لإدخال الرأي -->
  {{-- نحدد حالة عرض المودال حسب وجود success أو errors --}}
-@php
-    $showModal = session('success') || $errors->any();
-@endphp
-
-<div id="message-modal" class="modal" style="display: {{ $showModal ? 'flex' : 'none' }};">
+<div id="message-modal" class="modal" style="display: none;">
     <div class="modal-content">
         <div class="modal-header">
             <h2>شاركنا رأيك</h2>
@@ -532,8 +549,14 @@ body {
         <form method="POST" action="{{ route('feedback.store') }}">
             @csrf
             <div class="modal-body">
+                {{-- الرسائل --}}
+                @if (session('registered'))
+                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                        تم التسجيل بنجاح! هل ترغب بمشاركة رأيك؟
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                @endif
 
-                {{-- رسالة النجاح --}}
                 @if (session('success'))
                     <div class="alert alert-success alert-dismissible fade show" role="alert">
                         {{ session('success') }}
@@ -541,7 +564,6 @@ body {
                     </div>
                 @endif
 
-                {{-- رسائل الأخطاء --}}
                 @if ($errors->any())
                     <div class="alert alert-danger alert-dismissible fade show" role="alert">
                         <ul class="mb-0">
@@ -564,6 +586,15 @@ body {
     </div>
 </div>
 
+{{-- هذا السطر بيشغل المودال تلقائيًا إذا كان فيه سيشن --}}
+@if (session('registered') || session('show_feedback_modal'))
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            openMessageModal();
+        });
+    </script>
+@endif
+
 <script>
     function openMessageModal() {
         document.getElementById("message-modal").style.display = "flex";
@@ -573,13 +604,11 @@ body {
         document.getElementById("message-modal").style.display = "none";
     }
 
-    function toggleSocialLinks() {
-        var circle = document.getElementById("social-circle");
-        circle.classList.toggle("active");
-    }
+    
 </script>
 
-    <!-- Bootstrap JS (إذا كنت تستخدم Bootstrap 5، يجب استخدام فقط Bootstrap.bundle.min.js) -->
+
+   
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

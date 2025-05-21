@@ -14,25 +14,23 @@ class ProfileController extends Controller
 {
     $user = auth()->user();
 
-    // حساب إجمالي الساعات التطوعية
+    
     $volunteerHours = $user->opportunityApplications()
-                           ->with('opportunity') // جلب معلومات الفرصة المرتبطة
+                           ->with('opportunity')
                            ->get()
                            ->sum(function ($application) {
-                               return $application->opportunity->volunteer_hours; // جمع الساعات من الفرصة
+                               return $application->opportunity->volunteer_hours; 
                            });
 
-    // حساب عدد المشاريع التي شارك فيها اليوزر
+   
     $completedProjects = $user->opportunityApplications()->count();
-
-    // الحصول على عدد الشهادات
     $certificatesCount = $user->certificates()->count();
     $certificates = $user->certificates()->get();
 
-    // الحصول على آخر الفرص التطوعية التي سجل فيها اليوزر
+    
     $userId = auth()->id();
     $recentActivities = OpportunityApplication::where('user_id', $userId)
-        ->with('opportunity') // تحميل بيانات الفرصة المرتبطة
+        ->with('opportunity') 
         ->latest()
         ->take(5)
         ->get();
@@ -42,14 +40,14 @@ class ProfileController extends Controller
 
 
 
-    // عرض نموذج تعديل البروفايل
+    
     public function edit()
     {
         $user = Auth::user();
         return view('user.edit-profil', compact('user'));
     }
 
-    // تحديث بيانات البروفايل
+   
     public function update(Request $request)
     {
         $user = Auth::user();
@@ -96,21 +94,20 @@ class ProfileController extends Controller
     public function uploadPhoto(Request $request)
 {
     $request->validate([
-        'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048', // تحقق من نوع الصورة والحجم
+        'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048', 
     ]);
 
     $user = Auth::user();
 
-    
     $path = $request->file('image')->store('profile_images', 'public');
 
-   
     if ($user->profile_image && Storage::disk('public')->exists(str_replace('/storage/', '', $user->profile_image))) {
         Storage::disk('public')->delete(str_replace('/storage/', '', $user->profile_image));
     }
 
    
     $user->profile_image = '/storage/' . $path;
+    
     $user->save();
 
     return redirect()->back()->with('success', 'تم تحديث صورة البروفايل.');

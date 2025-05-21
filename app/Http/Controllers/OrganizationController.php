@@ -7,16 +7,17 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Storage;
 
 class OrganizationController extends Controller
 {
-    // عرض نموذج تسجيل الدخول للمؤسسات
+   
     public function showLoginForm()
     {
         return view('auth.login_organization');
     }
 
-    // معالجة تسجيل الدخول للمؤسسات
+    
     public function login(Request $request)
     {
         $credentials = $request->validate([
@@ -24,37 +25,30 @@ class OrganizationController extends Controller
             'password' => 'required',
         ]);
 
-        // تحديد ما إذا كان المدخل بريدًا إلكترونيًا أو رقم هاتف
         $field = filter_var($credentials['email_or_phone'], FILTER_VALIDATE_EMAIL) ? 'email' : 'phone';
         
-        // محاولة تسجيل الدخول للمؤسسة
         if (Auth::guard('organization')->attempt([
             $field => $credentials['email_or_phone'],
             'password' => $credentials['password']
-        ])) {
-            // تجديد الجلسة بعد تسجيل الدخول
+        ], $request->remember)) {
             $request->session()->regenerate();
-
-            // التوجيه إلى لوحة تحكم المؤسسة (dashboard)
-            return redirect()->route('organization.dashboard');  // التأكد من استخدام المسار الصحيح
+            return redirect()->intended(route('organization.dashboard'));
         }
 
-        // في حالة فشل تسجيل الدخول
         return back()->withErrors([
             'email_or_phone' => 'بيانات الاعتماد المقدمة غير متطابقة مع سجلاتنا.',
-        ]);
+        ])->onlyInput('email_or_phone');
     }
 
-    // عرض نموذج إنشاء حساب للمؤسسات
+    
     public function showRegistrationForm()
     {
         return view('auth.register_organization');
     }
 
-    // معالجة إنشاء حساب للمؤسسات
+    
     public function register(Request $request)
     {
-        // التحقق من البيانات المدخلة
         $validator = Validator::make($request->all(), [
             'organization_name' => 'required|string|max:255',
             'first_name' => 'required|string|max:255',
@@ -62,22 +56,36 @@ class OrganizationController extends Controller
             'email' => 'required|string|email|max:255|unique:organizations',
             'phone' => 'required|string|max:20|unique:organizations',
             'password' => 'required|string|min:8|confirmed',
+            'profile_picture' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'website' => 'nullable|url',
             'governorate' => 'required|string',
             'sector' => 'required|in:private,NGO',
             'national_id' => 'required|string',
             'volunteer_services' => 'required|in:yes,no',
             'volunteer_type' => 'required_if:volunteer_services,yes|string|nullable',
+            'logistics_services' => 'nullable|string',
+            'bio' => 'nullable|string',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'description' => 'nullable|string',
         ]);
 
-        // إذا كانت هناك أخطاء في التحقق من البيانات المدخلة
         if ($validator->fails()) {
             return redirect()->back()
                 ->withErrors($validator)
                 ->withInput();
         }
 
-        // إنشاء المؤسسة بدون ربطها بأي مستخدم
+       
+        $profile_picture = null;
+        if ($request->hasFile('profile_picture')) {
+            $profile_picture = $request->file('profile_picture')->store('profile_pictures', 'public');
+        }
+
+        $image = null;
+        if ($request->hasFile('image')) {
+            $image = $request->file('image')->store('organization_images', 'public');
+        }
+
         $organization = Organization::create([
             'organization_name' => $request->organization_name,
             'first_name' => $request->first_name,
@@ -85,6 +93,7 @@ class OrganizationController extends Controller
             'email' => $request->email,
             'phone' => $request->phone,
             'password' => Hash::make($request->password),
+            'profile_picture' => $profile_picture,
             'website' => $request->website,
             'governorate' => $request->governorate,
             'sector' => $request->sector,
@@ -92,29 +101,30 @@ class OrganizationController extends Controller
             'volunteer_services' => $request->volunteer_services,
             'volunteer_type' => $request->volunteer_type,
             'logistics_services' => $request->logistics_services,
+            'bio' => $request->bio,
+            'image' => $image,
+             'description' => $request->description ?? null,
         ]);
 
-        
         Auth::guard('organization')->login($organization);
 
-        
-        return redirect()->route('organization.dashboard');
+        return redirect()->route('organization.dashboard')->with('success', 'تم تسجيل المؤسسة بنجاح!');
     }
 
-    
+   
     public function logout(Request $request)
     {
-        
         Auth::guard('organization')->logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
-        return redirect('/');
+        return redirect('/')->with('status', 'تم تسجيل الخروج بنجاح');
     }
 
-    // عرض لوحة تحكم المؤسسة
+    
     public function dashboard()
     {
-        // عرض صفحة لوحة تحكم المؤسسة
-        return view('organization.dashboard');
+        return view('organization.dashboard', [
+            'organization' => Auth::guard('organization')->user()
+        ]);
     }
 }

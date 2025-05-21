@@ -17,17 +17,19 @@
         @csrf
         @method('PUT')
         
-        <div class="form-group">
-            <label for="activities">الأنشطة</label>
-            <input type="text" class="form-control" id="activities" name="activities" value="{{ $conference->activities }}" required>
-            @error('activities')
-                <span class="text-danger">{{ $message }}</span>
-            @enderror
-        </div>
+       
         <div class="form-group">
             <label for="title">اسم المؤتمر</label>
             <input type="text" class="form-control" id="title" name="title" value="{{ $conference->title }}" required>
             @error('title')
+                <span class="text-danger">{{ $message }}</span>
+            @enderror
+        </div>
+
+         <div class="form-group">
+            <label for="activities">الأنشطة</label>
+            <input type="text" class="form-control" id="activities" name="activities" value="{{ $conference->activities }}" required>
+            @error('activities')
                 <span class="text-danger">{{ $message }}</span>
             @enderror
         </div>

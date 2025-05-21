@@ -15,7 +15,7 @@ class OpportunityCommentController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'opportunity_id' => 'required|exists:opportunities,id',
+           'opportunity_id' => 'required|exists:volunteer_opportunities,id',
             'comment' => 'required|string|max:1000',
         ]);
 

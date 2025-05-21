@@ -133,7 +133,17 @@
         </a>
     </div>
 
-    <form action="{{ isset($opportunity) ? route('organization.opportunities.update', $opportunity) : route('organization.opportunities.store') }}" method="POST" enctype="multipart/form-data">
+    @if($errors->any())
+    <div class="alert alert-danger">
+        <ul>
+            @foreach($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+    @endif
+
+    <form action="{{ isset($opportunity) ? route('organization.opportunities.update', $opportunity->id) : route('organization.opportunities.store') }}" method="POST" enctype="multipart/form-data">
         @csrf
         @if(isset($opportunity))
             @method('PUT')
@@ -160,21 +170,28 @@
                             <label for="category" class="form-label">التصنيف</label>
                             <select class="form-select" id="category" name="category" required>
                                 <option value="" disabled selected>اختر تصنيف الفرصة</option>
-                                <option value="ريادة" {{ old('category', $opportunity->category ?? '') == 'ريادة' ? 'selected' : '' }}>ريادة</option>
-                                <option value="بيئية" {{ old('category', $opportunity->category ?? '') == 'بيئية' ? 'selected' : '' }}>بيئية</option>
-                                <option value="صحة" {{ old('category', $opportunity->category ?? '') == 'صحة' ? 'selected' : '' }}>صحة</option>
-                                <option value="فنون" {{ old('category', $opportunity->category ?? '') == 'فنون' ? 'selected' : '' }}>فنون</option>
-                                <option value="تعليم" {{ old('category', $opportunity->category ?? '') == 'تعليم' ? 'selected' : '' }}>تعليم</option>
-                                <option value="رياضة" {{ old('category', $opportunity->category ?? '') == 'رياضة' ? 'selected' : '' }}>رياضة</option>
+                                <option value="entrepreneurship" {{ old('category', $opportunity->category ?? '') == 'entrepreneurship' ? 'selected' : '' }}>ريادة</option>
+                                <option value="environment" {{ old('category', $opportunity->category ?? '') == 'environment' ? 'selected' : '' }}>بيئية</option>
+                                <option value="health" {{ old('category', $opportunity->category ?? '') == 'health' ? 'selected' : '' }}>صحة</option>
+                                <option value="arts" {{ old('category', $opportunity->category ?? '') == 'arts' ? 'selected' : '' }}>فنون</option>
+                                <option value="education" {{ old('category', $opportunity->category ?? '') == 'education' ? 'selected' : '' }}>تعليم</option>
+                                <option value="sports" {{ old('category', $opportunity->category ?? '') == 'sports' ? 'selected' : '' }}>رياضة</option>
+                                <option value="other" {{ old('category', $opportunity->category ?? '') == 'other' ? 'selected' : '' }}>أخرى</option>
                             </select>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="volunteer_hours" class="form-label">ساعات التطوع</label>
+                            <input type="text" class="form-control" id="volunteer_hours" name="volunteer_hours" 
+                                   value="{{ old('volunteer_hours', $opportunity->volunteer_hours ?? '') }}" required>
                         </div>
 
                         <div class="mb-3">
                             <label for="image" class="form-label">صورة الفرصة</label>
                             <input type="file" class="form-control" id="image" name="image">
-                            @if(isset($opportunity) && $opportunity->image_path)
+                            @if(isset($opportunity) && $opportunity->image)
                                 <div class="mt-2">
-                                    <img src="{{ asset('storage/' . $opportunity->image_path) }}" width="100" class="img-thumbnail">
+                                    <img src="{{ asset('images/' . $opportunity->image) }}" width="100" class="img-thumbnail">
                                 </div>
                             @endif
                         </div>
@@ -192,6 +209,18 @@
                                    value="{{ old('location', $opportunity->location ?? '') }}" required>
                         </div>
 
+                        <div class="mb-3">
+                            <label for="city" class="form-label">المدينة</label>
+                            <select class="form-select" id="city" name="city" required>
+                                <option value="" disabled selected>اختر المدينة</option>
+                                <option value="amman" {{ old('city', $opportunity->city ?? '') == 'amman' ? 'selected' : '' }}>عمان</option>
+                                <option value="zarqa" {{ old('city', $opportunity->city ?? '') == 'zarqa' ? 'selected' : '' }}>الزرقاء</option>
+                                <option value="irbid" {{ old('city', $opportunity->city ?? '') == 'irbid' ? 'selected' : '' }}>إربد</option>
+                                <option value="aqaba" {{ old('city', $opportunity->city ?? '') == 'aqaba' ? 'selected' : '' }}>العقبة</option>
+                                <!-- باقي المدن -->
+                            </select>
+                        </div>
+
                         <div class="row mb-3">
                             <div class="col-md-6">
                                 <label for="start_date" class="form-label">تاريخ البدء</label>
@@ -206,21 +235,21 @@
                         </div>
 
                         <div class="mb-3">
-                            <label for="working_days" class="form-label">أيام العمل</label>
-                            <input type="text" class="form-control" id="working_days" name="working_days" 
-                                   value="{{ old('working_days', $opportunity->working_days ?? '') }}" required>
+                            <label for="days" class="form-label">أيام العمل</label>
+                            <input type="text" class="form-control" id="days" name="days" 
+                                   value="{{ old('days', $opportunity->days ?? '') }}" required>
                         </div>
 
                         <div class="row mb-3">
                             <div class="col-md-6">
                                 <label for="start_time" class="form-label">وقت البدء</label>
                                 <input type="time" class="form-control" id="start_time" name="start_time" 
-                                       value="{{ old('start_time', $opportunity->start_time ?? '') }}" required>
+                                       value="{{ old('start_time', $opportunity->start_time ?? '') }}">
                             </div>
                             <div class="col-md-6">
                                 <label for="end_time" class="form-label">وقت الانتهاء</label>
                                 <input type="time" class="form-control" id="end_time" name="end_time" 
-                                       value="{{ old('end_time', $opportunity->end_time ?? '') }}" required>
+                                       value="{{ old('end_time', $opportunity->end_time ?? '') }}">
                             </div>
                         </div>
 
@@ -242,17 +271,41 @@
                             </div>
                         </div>
 
-                        <div class="mb-3 form-check">
-                            <input type="checkbox" class="form-check-input" id="transportation_available" 
-                                   name="transportation_available" value="1"
-                                   {{ old('transportation_available', $opportunity->transportation_available ?? false) ? 'checked' : '' }}>
-                            <label class="form-check-label" for="transportation_available">وسائل النقل متاحة</label>
+                        <div class="mb-3">
+                            <label for="gender" class="form-label">الجنس</label>
+                            <select class="form-select" id="gender" name="gender" required>
+                                <option value="all" {{ old('gender', $opportunity->gender ?? '') == 'all' ? 'selected' : '' }}>كل الجنسين</option>
+                                <option value="male" {{ old('gender', $opportunity->gender ?? '') == 'male' ? 'selected' : '' }}>ذكور فقط</option>
+                                <option value="female" {{ old('gender', $opportunity->gender ?? '') == 'female' ? 'selected' : '' }}>إناث فقط</option>
+                            </select>
                         </div>
 
                         <div class="mb-3">
-                            <label for="max_volunteers" class="form-label">العدد الأقصى للمتطوعين</label>
-                            <input type="number" class="form-control" id="max_volunteers" name="max_volunteers" 
-                                   value="{{ old('max_volunteers', $opportunity->max_volunteers ?? '') }}" required>
+                            <label for="total_volunteers" class="form-label">العدد الأقصى للمتطوعين</label>
+                            <input type="number" class="form-control" id="total_volunteers" name="total_volunteers" 
+                                   value="{{ old('total_volunteers', $opportunity->total_volunteers ?? '') }}" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="transportation" class="form-label">النقل</label>
+                            <select class="form-select" id="transportation" name="transportation">
+                                <option value="available" {{ old('transportation', $opportunity->transportation ?? '') == 'available' ? 'selected' : '' }}>متاح</option>
+                                <option value="unavailable" {{ old('transportation', $opportunity->transportation ?? '') == 'unavailable' ? 'selected' : '' }}>غير متاح</option>
+                            </select>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="status" class="form-label">الحالة</label>
+                            <select class="form-select" id="status" name="status" required>
+                                <option value="available" {{ old('status', $opportunity->status ?? '') == 'available' ? 'selected' : '' }}>متاحة</option>
+                                <option value="full" {{ old('status', $opportunity->status ?? '') == 'full' ? 'selected' : '' }}>مكتملة</option>
+                            </select>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="total_participants" class="form-label">إجمالي المشاركين</label>
+                            <input type="number" class="form-control" id="total_participants" name="total_participants" 
+                                   value="{{ old('total_participants', $opportunity->total_participants ?? '') }}" required>
                         </div>
                     </div>
                 </div>

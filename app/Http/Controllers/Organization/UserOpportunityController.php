@@ -11,6 +11,7 @@ use App\Models\Organization;
 use Illuminate\Http\Request;
 use App\Notifications\OpportunityRegistrationSuccess;
 use App\Notifications\OpportunityNotification;
+use Carbon\Carbon;
 
 class UserOpportunityController extends Controller
 {
@@ -116,10 +117,24 @@ public function registerOpportunity(Request $request)
     try {
         $opportunity = VolunteerOpportunity::findOrFail($request->opportunity_id);
 
+        $today = Carbon::today();
+
+        
+        if ($today->gt(Carbon::parse($opportunity->end_date))) {
+            return redirect()->back()->with('error', 'هذه الفرصة انتهت ولا يمكن التسجيل.');
+        }
+
+       
+        if ($opportunity->status !== 'available') {
+            return redirect()->back()->with('error', 'هذه الفرصة غير متاحة حالياً.');
+        }
+
+       
         if ($opportunity->current_volunteers >= $opportunity->total_volunteers) {
             return redirect()->back()->with('error', 'عذراً، لقد اكتمل العدد المتطوعين لهذه الفرصة.');
         }
 
+        
         $existing = OpportunityApplication::where([
             'user_id' => auth()->id(),
             'opportunity_id' => $opportunity->id
@@ -129,12 +144,14 @@ public function registerOpportunity(Request $request)
             return redirect()->back()->with('error', 'مسجل مسبقاً في هذه الفرصة');
         }
 
+        
         OpportunityApplication::create([
             'user_id' => auth()->id(),
             'opportunity_id' => $opportunity->id,
             'status' => 'pending',
         ]);
 
+        
         $opportunity->increment('current_volunteers');
 
         return redirect()->back()->with('success', 'تم التسجيل بنجاح');
@@ -143,9 +160,6 @@ public function registerOpportunity(Request $request)
         return redirect()->back()->withErrors('حدث خطأ: ' . $e->getMessage());
     }
 }
-
-
-
 
 
     public function showGoals()

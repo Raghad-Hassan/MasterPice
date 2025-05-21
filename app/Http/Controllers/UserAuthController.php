@@ -18,7 +18,6 @@ class UserAuthController extends Controller
         return view('auth.login_personal');
     }
 
-    
 
 public function login(Request $request)
 {
@@ -34,7 +33,7 @@ public function login(Request $request)
 
     if (Auth::attempt([$field => $request->email_or_phone, 'password' => $request->password])) {
         $request->session()->regenerate();
-
+ 
         $user = Auth::user();
 
         
@@ -43,7 +42,7 @@ public function login(Request $request)
             return redirect()->route('verification.notice');
         }
 
-        // التوجيه حسب الدور
+       
         return match ($user->role_id) {
             1 => redirect()->route('admin.dashboard'),
             3 => redirect()->route('index'),
@@ -70,7 +69,7 @@ public function login(Request $request)
             'governorate' => 'required|string|max:100',
             'birth_date' => 'required|date|before:today',
             'email' => 'required|email|unique:users,email',
-           'password' => 'required|min:8|confirmed', // "confirmed" تتحقق من تطابق كلمة السر مع تأكيد كلمة السر
+           'password' => 'required|min:8|confirmed', 
             'password_confirmation' => 'required|min:8',
         ], [
             'first_name.required' => 'الاسم الأول مطلوب',

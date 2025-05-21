@@ -181,7 +181,21 @@
                     <i class="fa fa-check-circle"></i> <span>الأفكار الموافق عليها</span>
                 </a>
             </li>
-            
+
+              <li class="nav-item {{ request()->routeIs('organization.newsletter.index') ? 'active' : '' }}">
+                <a href="{{ route('organization.newsletter.index') }}" class="nav-link">
+                    <i class="fa fa-envelope"></i>
+                    <span>النشرة البريدية</span>
+                </a>
+            </li>
+
+                <li class="nav-item">
+                <a class="nav-link" href="{{ route('organization.comments.index') }}">
+                    <i class="fas fa-comments"></i> التعليقات
+                </a>
+            </li>
+
+
             <li class="nav-item">
                 <form method="POST" action="{{ route('organization.logout') }}">
                     @csrf

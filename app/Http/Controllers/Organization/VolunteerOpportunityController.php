@@ -10,7 +10,7 @@ class VolunteerOpportunityController extends Controller
 {
     public function index()
 {
-    // جلب الفرص التطوعية مع أسماء المستخدمين وأهداف التنمية المستدامة المرتبطة بها
+   
     $opportunities = VolunteerOpportunity::with(['applicants.user', 'goal'])->paginate(10);
 
     return view('organization.opportunities.index', compact('opportunities'));
@@ -20,7 +20,7 @@ class VolunteerOpportunityController extends Controller
 {
     $opportunity = VolunteerOpportunity::findOrFail($opportunityId);
 
-    // جلب المتطوعين المسجلين في هذه الفرصة
+   
     $applicants = $opportunity->applicants()->with('user')->get();
 
     return view('organization.opportunities.applicants', compact('opportunity', 'applicants'));

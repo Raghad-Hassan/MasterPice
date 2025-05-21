@@ -44,6 +44,7 @@ class AdminProfileController extends Controller
         $admin->first_name = $request->first_name;
         $admin->last_name = $request->last_name;
         $admin->email = $request->email;
+        
         $admin->save();
 
       
